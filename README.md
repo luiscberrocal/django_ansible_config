@@ -7,7 +7,7 @@ Requires Python 3.x and cookiecutter (https://github.com/pydanny/cookiecutter-dj
 
 Goto PycharmProjects and run:
 
-    $ cookiecutter https://github.com/pydanny/cookiecutter-django
+    $  cookiecutter --no-input https://github.com/pydanny/cookiecutter-django --config-file ./django_ansible_config/cookiecutter/cookiecutter-config.yml
     
 Copy cookiecutter configuration to the project. In my example the 
 
