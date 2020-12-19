@@ -4,6 +4,7 @@
    vars:
      django_project_slug: rec_promoter_app
      django_project_folder: "/Users/luiscberrocal/PycharmProjects/{{ django_project_slug }}"
+     repository:
    tasks:
      - name: Get stats of the .git folder
        stat:
@@ -17,3 +18,5 @@
          creates: .init
          chdir: "{{ django_project_folder }}"
        when: not git_folder.stat.exists
+     - name: Add remote to repo
+       shell: git remote add origin https://github.com/user/repo.git
