@@ -5,8 +5,15 @@
      django_project_slug: rec_promoter_app
      django_project_folder: "/Users/luiscberrocal/PycharmProjects/{{ django_project_slug }}"
    tasks:
+     - name: Get stats of the .git folder
+       stat:
+         path: "{{ django_project_folder }}/.git"
+       register: git_folder
+#     - debug:
+#         msg: {{ git_folder.stat }}
      - name: Init the git repo
        shell: git init
        args:
          creates: .init
          chdir: "{{ django_project_folder }}"
+       when: not git_folder.stat.exists
