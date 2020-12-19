@@ -1,0 +1,33 @@
+{
+  "cookiecutter": {
+    "project_name": "REC Promoter App",
+    "project_slug": "rec_promoter_app",
+    "description": "Promoter tracking app for REC",
+    "author_name": "Luis C. Berrocal",
+    "domain_name": "herokuapp.com",
+    "email": "luis.berrocal.1942@gmail.com",
+    "version": "0.1.0",
+    "open_source_license": "Not open source",
+    "timezone": "America/Panama",
+    "windows": "n",
+    "use_pycharm": "y",
+    "use_docker": "y",
+    "postgresql_version": "12.3",
+    "js_task_runner": "None",
+    "cloud_provider": "AWS",
+    "mail_service": "Mailgun",
+    "use_async": "n",
+    "use_drf": "y",
+    "custom_bootstrap_compilation": "n",
+    "use_compressor": "n",
+    "use_celery": "y",
+    "use_mailhog": "y",
+    "use_sentry": "n",
+    "use_whitenoise": "n",
+    "use_heroku": "y",
+    "ci_tool": "Github",
+    "keep_local_envs_in_vcs": "y",
+    "debug": "n",
+    "_template": "https://github.com/pydanny/cookiecutter-django"
+  }
+}

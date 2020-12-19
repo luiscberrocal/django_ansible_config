@@ -12,3 +12,9 @@ Goto PycharmProjects and run:
 Copy cookiecutter configuration to the project. In my example the 
 
     $ cp ~/.cookiecutter_replay/cookiecutter-django.json ./rec_promoter_app
+    
+## Github
+
+Create a repo with the same name as your cookiecutter slug **rec_promoter_app** for our example
+
+

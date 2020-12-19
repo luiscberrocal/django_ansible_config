@@ -1,0 +1,12 @@
+---
+ - name: Django ansible play book
+   hosts: localhost
+   vars:
+     django_project_slug: rec_promoter_app
+     django_project_folder: "/Users/luiscberrocal/PycharmProjects/{{ django_project_slug }}"
+   tasks:
+     - name: Init the git repo
+       shell: git init
+       args:
+         creates: .init
+         chdir: "{{ django_project_folder }}"
