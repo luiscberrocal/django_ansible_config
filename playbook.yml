@@ -5,8 +5,11 @@
     django_project_slug: rec_promoter_app
     django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
     cookiecutter_config: "{{ pycharm_project_folder }}/django_ansible_config/cookiecutter/cookiecutter-config.yml"
+    github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
   tasks:
     - name: Create django project
       include_tasks: ./tasks/django_project.yml
+    - name: Git setup
+      include_tasks: ./tasks/git_setup.yml
 
 
