@@ -3,7 +3,7 @@ default_context:
     email: "luis.berrocal.1942@gmail.com"
     github_username: "luiscberrocal"
     project_name: "REC Promoter App"
-    project_slug: "rec_promoter_app"
+    #project_slug: "rec_promoter_app"
     domain_name: "herokuapp.com"
     version: "0.1.0"
     open_source_license: "Not open source"
