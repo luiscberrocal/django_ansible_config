@@ -1,22 +1,12 @@
----
- - name: Django ansible play book
-   hosts: localhost
-   vars:
-     django_project_slug: rec_promoter_app
-     django_project_folder: "/Users/luiscberrocal/PycharmProjects/{{ django_project_slug }}"
-     repository:
-   tasks:
-     - name: Get stats of the .git folder
-       stat:
-         path: "{{ django_project_folder }}/.git"
-       register: git_folder
-#     - debug:
-#         msg: {{ git_folder.stat }}
-     - name: Init the git repo
-       shell: git init
-       args:
-         creates: .init
-         chdir: "{{ django_project_folder }}"
-       when: not git_folder.stat.exists
-     - name: Add remote to repo
-       shell: git remote add origin https://github.com/user/repo.git
+- name: Django ansible play book
+  hosts: localhost
+  vars:
+    pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+    django_project_slug: rec_promoter_app
+    django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
+    cookiecutter_config: "{{ pycharm_project_folder }}/django_ansible_config/cookiecutter/cookiecutter-config.yml"
+  tasks:
+    - name: Create django project
+      include_tasks: ./tasks/django_project.yml
+
+

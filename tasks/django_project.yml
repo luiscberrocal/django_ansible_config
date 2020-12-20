@@ -1,11 +1,4 @@
-- name: Create django project
-  hosts: localhost
-  vars:
-    pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
-    cookiecutter_config: "{{ pycharm_project_folder }}/django_ansible_config/cookiecutter/cookiecutter-config.yml"
-
-  tasks:
-    - name: Run cookie cutter
-      shell: "cookiecutter --no-input https://github.com/pydanny/cookiecutter-django --config-file {{ cookiecutter_config }}"
-      args:
-        chdir: "{{ pycharm_project_folder }}"
+- name: Run cookie cutter
+  shell: "cookiecutter --no-input https://github.com/pydanny/cookiecutter-django --config-file {{ cookiecutter_config }}"
+  args:
+    chdir: "{{ pycharm_project_folder }}"
