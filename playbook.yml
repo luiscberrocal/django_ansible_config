@@ -2,9 +2,10 @@
   hosts: localhost
   vars:
     pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+    ansible_project_folder: "{{ pycharm_project_folder }}/django_ansible_config"
     django_project_slug: rec_promoter_app
     django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
-    cookiecutter_config: "{{ pycharm_project_folder }}/django_ansible_config/cookiecutter/cookiecutter-config.yml"
+    cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
     github_token_file: "{{ pycharm_project_folder }}/django_ansible_config/.secrets/github_token.txt"
   tasks:
@@ -12,6 +13,8 @@
       include_tasks: ./tasks/django_project.yml
     - name: Git setup
       include_tasks: ./tasks/git_setup.yml
+    - name: Django configurations
+      include_tasks: ./tasks/django_config.yml
 #    - name: Crete github repo
 #      include_tasks: ./tasks/github_repo.yml
 

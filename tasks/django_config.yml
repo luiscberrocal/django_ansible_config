@@ -1,0 +1,17 @@
+#- include_vars:
+#    file: /home/vagrant/stunnelSimAnsPractice/roles/ns16/vars/customers.yml
+#    name: customers
+
+- template:
+    src: "{{ ansible_project_folder }}/files/setup.cfg.j2"
+    dest: "{{ ansible_project_folder }}/files/setup_temp.cfg"
+
+- name: "Append stunnel.conf with content of temporary file"
+  shell: cat {{ ansible_project_folder }}/files/setup_temo.cfg >> setup.cfg
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: "Delete temporary file"
+  file:
+    path: /home/vagrant/stunnelSimAnsPractice/roles/ns16/output/temp.conf
+    state: absent
