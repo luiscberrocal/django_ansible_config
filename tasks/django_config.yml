@@ -6,12 +6,19 @@
     src: "{{ ansible_project_folder }}/files/setup.cfg.j2"
     dest: "{{ ansible_project_folder }}/files/setup_temp.cfg"
 
-- name: "Append stunnel.conf with content of temporary file"
-  shell: cat {{ ansible_project_folder }}/files/setup_temo.cfg >> setup.cfg
+- name: "Append setup.cfg with bumpversion configuration"
+  shell: cat {{ ansible_project_folder }}/files/setup_temp.cfg >> setup.cfg
   args:
     chdir: "{{ django_project_folder }}"
 
 - name: "Delete temporary file"
   file:
-    path: /home/vagrant/stunnelSimAnsPractice/roles/ns16/output/temp.conf
+    path: "{{ ansible_project_folder }}/files/setup_temp.cfg"
     state: absent
+#
+#- name: "Add version to base.html"
+#  replace:
+#    path: "{{ django_project_folder }}/{{ django_project_folder }}/templates/base.html"
+#    after: '<html>'
+#    regexp: "<a\s+class=\"navbar-brand\"\s+href=\"{%\surl\s'home'\s%}\">(.+)<\/a>"
+#    replace: "<a class=\"navbar-brand\" href=\"{% url 'home' %}\">\1  <span class=\"version\">v0.1.0</span></a>"
