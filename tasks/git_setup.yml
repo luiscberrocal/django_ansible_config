@@ -25,6 +25,11 @@
   shell: git commit -m "First commit of cookiecutter template"
   args:
     chdir: "{{ django_project_folder }}"
+
+- name: Creating develop branch to make git flow work
+  shell: git branch develop
+  args:
+    chdir: "{{ django_project_folder }}"
 #- name: Add remote to repo
 #  shell: git remote add origin {{ github_repo }}
 #  args:
