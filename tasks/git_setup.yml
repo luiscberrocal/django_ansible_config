@@ -10,6 +10,21 @@
     chdir: "{{ django_project_folder }}"
   when: not git_folder.stat.exists
 
+- name: Insert/Update gitflow configuration
+  blockinfile:
+    block: "{{ lookup('file', '../files/git_flow_config.txt') }}"
+    path: "{{ django_project_folder }}/.git/config"
+    backup: yes
+
+- name: Add all files to git
+  shell: git add .
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: First commit of cookiecutter template
+  shell: git commit -m "First commit of cookiecutter template"
+  args:
+    chdir: "{{ django_project_folder }}"
 #- name: Add remote to repo
 #  shell: git remote add origin {{ github_repo }}
 #  args:
