@@ -10,7 +10,7 @@
     chdir: "{{ django_project_folder }}"
   when: not git_folder.stat.exists
 
-- name: Add remote to repo
-  shell: git remote add origin {{ github_repo }}
-  args:
-    chdir: "{{ django_project_folder }}"
+#- name: Add remote to repo
+#  shell: git remote add origin {{ github_repo }}
+#  args:
+#    chdir: "{{ django_project_folder }}"
