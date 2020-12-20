@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.idea/
+cookiecutter/cookiecutter-django/
+.secrets/

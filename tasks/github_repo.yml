@@ -1,0 +1,9 @@
+- name: Login to Github
+  shell: gh auth login --with-token < {{ github_token_file }}
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: Create Github repo
+  shell: "gh repo create {{ django_project_slug }} --enable-issues --public -y"
+  args:
+    chdir: "{{ django_project_folder }}"
