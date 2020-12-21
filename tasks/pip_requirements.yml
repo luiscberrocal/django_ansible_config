@@ -18,3 +18,4 @@
     - {regexp: '^(django-test-tools)==\d\.\d\.\d.*', line: 'django-test-tools==1.10.6'}
     - {regexp: '^(django-test-plus)==\d\.\d\.\d.*', line: 'django-test-plus==1.4.0'}
     - {regexp: '^(selenium)==\d\.\d\.\d.*', line: 'selenium==3.141.0'}
+
