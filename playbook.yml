@@ -15,6 +15,8 @@
       include_tasks: ./tasks/git_setup.yml
     - name: Django configurations
       include_tasks: ./tasks/django_config.yml
+    - name: Configure django super user
+      include_tasks: ./tasks/django_user_config.yml
 #    - name: Crete github repo
 #      include_tasks: ./tasks/github_repo.yml
 

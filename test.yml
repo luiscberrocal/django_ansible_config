@@ -11,8 +11,4 @@
   tasks:
 
     - name: Test that my module works
-      update_version:
-        base_html: "{{ django_project_folder }}/{{django_project_slug}}/templates/base.html"
-      register: result
-
-    - debug: var=result
+      include_tasks: ./tasks/django_user_config.yml
