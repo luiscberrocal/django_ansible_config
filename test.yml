@@ -1,4 +1,4 @@
-- name: Django ansible play book
+- name: Test Django ansible play book
   hosts: localhost
   vars:
     pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
@@ -9,14 +9,10 @@
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
     github_token_file: "{{ pycharm_project_folder }}/django_ansible_config/.secrets/github_token.txt"
   tasks:
-    - name: Create django project
-      include_tasks: ./tasks/django_project.yml
-    - name: Git setup
-      include_tasks: ./tasks/git_setup.yml
-    - name: Django configurations
-      include_tasks: ./tasks/django_config.yml
-#    - name: Crete github repo
-#      include_tasks: ./tasks/github_repo.yml
 
+    - name: Test that my module works
+      update_version:
+        base_html: "{{ django_project_folder }}/{{django_project_slug}}/templates/base.html"
+      register: result
 
-
+    - debug: var=result

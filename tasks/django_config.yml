@@ -1,0 +1,22 @@
+#- include_vars:
+#    file: /home/vagrant/stunnelSimAnsPractice/roles/ns16/vars/customers.yml
+#    name: customers
+
+- template:
+    src: "{{ ansible_project_folder }}/files/setup.cfg.j2"
+    dest: "{{ ansible_project_folder }}/files/setup_temp.cfg"
+
+- name: "Append setup.cfg with bumpversion configuration"
+  shell: cat {{ ansible_project_folder }}/files/setup_temp.cfg >> setup.cfg
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: "Delete temporary file"
+  file:
+    path: "{{ ansible_project_folder }}/files/setup_temp.cfg"
+    state: absent
+
+- name: Adds version to base.html
+  update_version:
+    base_html: "{{ django_project_folder }}/{{django_project_slug}}/templates/base.html"
+  #register: result
