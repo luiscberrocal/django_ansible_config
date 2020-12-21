@@ -46,3 +46,8 @@
   blockinfile:
     block: "{{ lookup('file', '../files/settings.py') }}"
     path: "{{ django_project_folder }}/config/settings/base.py"
+
+- name: Second commit of Django confi
+  shell: git checkout develop && git add . && git commit -m "Add output variable, LANGUAGES and version"
+  args:
+    chdir: "{{ django_project_folder }}"
