@@ -15,9 +15,3 @@
   file:
     path: "{{ ansible_project_folder }}/files/setup_temp.cfg"
     state: absent
-#
-- name: "Add version to base.html"
-  replace:
-    path: "{{ django_project_folder }}/{{ django_project_slug }}/templates/base.html"
-    regexp: '<a\s+class="navbar-brand"\s+href="{%\surl\s\\\\x027home\\\x\x027\s%}\">(.+)<\/a>'
-    replace: '<a class="navbar-brand" href="KKKKKKK' #{% url 'home' %}">\1  <span class="version">v0.1.0</span></a>'
