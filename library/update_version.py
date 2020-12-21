@@ -13,16 +13,21 @@ def update_version(data):
 	with open(filename, 'r') as html:
 		content = html.read()
 
-	regex = r"<a\s+class=\"navbar-brand\"\s+href=\"{%\s+url\s'home'\s%}\">(.+)</a>"
+	regex = r"<a\s+class=\"navbar-brand\"\s+href=\"{%\s+url\s'home'\s%}\">([\w\s\-\+]+)</a>"
 	subst = "<a class=\"navbar-brand\" href=\"{% url 'home' %}\">\\1 <span class=\"version\">0.1.0</span></a>"
 
-	# You can manually specify the number of replacements by changing the 4th argument
-	result = re.sub(regex, subst, content, 0, re.MULTILINE)
+	matches = re.findall(regex, content, re.MULTILINE)
+	if len(matches) == 1:
+		# You can manually specify the number of replacements by changing the 4th argument
+		result = re.sub(regex, subst, content, 0, re.MULTILINE)
 
-	if result:
-		with open(filename, 'w') as html:
-			html.write(result)
-		return False, True, {'result': 'SUCCESS'}
+		if result:
+			with open(filename, 'w') as html:
+				html.write(result)
+			return False, True, {'result': 'SUCCESS'}
+		
+	if len(matches) == 0:
+		return True, False, {'msg': 'No match found for regexp'}
 
 	return True, False, {'msg': 'Unexpected result'}
 
