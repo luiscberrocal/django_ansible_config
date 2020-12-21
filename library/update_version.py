@@ -25,7 +25,7 @@ def update_version(data):
 			with open(filename, 'w') as html:
 				html.write(result)
 			return False, True, {'result': 'SUCCESS'}
-		
+
 	if len(matches) == 0:
 		return True, False, {'msg': 'No match found for regexp'}
 

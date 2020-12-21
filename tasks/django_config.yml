@@ -15,3 +15,8 @@
   file:
     path: "{{ ansible_project_folder }}/files/setup_temp.cfg"
     state: absent
+
+- name: Adds version to base.html
+  update_version:
+    base_html: "{{ django_project_folder }}/{{django_project_slug}}/templates/base.html"
+  #register: result
