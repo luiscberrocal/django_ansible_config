@@ -1,9 +1,9 @@
 - name: Update base requirements
   lineinfile:
     path: "{{ django_project_folder }}/requirements/base.txt"
-    regexp: '^django-import-export==\d\.\d\.\d.*' #{{item.regexp}}
-    line: 'django-import-export==2.4.0'
-#  with_items:
-#    - {regexp: '^django-import-export==\d\.\d\.\d.*', line: 'django-import-export==2.4.0'}
-#    - {regexp: '^django-role-permissions==\d\.\d\.\d.*',  line: 'django-role-permissions==3.1.'}
-#    - {regexp: '^pandas==\d\.\d\.\d.*', line: 'pandas==1.1.4'}
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: '^django-import-export==\d\.\d\.\d.*', line: 'django-import-export==2.4.0'}
+    - {regexp: '^django-role-permissions==\d\.\d\.\d.*',  line: 'django-role-permissions==3.1.0'}
+    - {regexp: '^pandas==\d\.\d\.\d.*', line: 'pandas==1.1.4'}
