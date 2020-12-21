@@ -9,16 +9,9 @@
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
     github_token_file: "{{ pycharm_project_folder }}/django_ansible_config/.secrets/github_token.txt"
   tasks:
-    - include_vars:
-        file: "{{ ansible_project_folder }}/tasks/regexps.json"
-        name: variable
-    - debug: var=variable
 
-    - name: "Add version to base.html"
-      replace:
-        path: "{{ ansible_project_folder }}/test_data/base.html"
-        regexp: '{{ variable.base_version }}'
-        replace: '<a class="navbar-brand" href="KKKKKKK' #{% url 'home' %}">\1  <span class="version">v0.1.0</span></a>'
+    - name: Test that my module works
+      update_version:
+      register: result
 
-
-
+    - debug: var=result
