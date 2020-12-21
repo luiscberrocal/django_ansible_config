@@ -26,7 +26,7 @@
     path: "{{ django_project_folder }}/config/settings/base.py"
     insertafter: '^APPS_DIR\s*=\s*'
     regexp: '^TEST_OUTPUT_PATH\s*=\s*'
-    line: 'TEST_OUTPUT_PATH = ROOT_DIR.path("output").root'
+    line: 'TEST_OUTPUT_PATH = ROOT_DIR/"output"'
 
 - name: Ensure output folder is ignored by git
   lineinfile:
