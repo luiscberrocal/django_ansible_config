@@ -19,3 +19,6 @@
     - {regexp: '^(django-test-plus)==\d\.\d\.\d.*', line: 'django-test-plus==1.4.0'}
     - {regexp: '^(selenium)==\d\.\d\.\d.*', line: 'selenium==3.141.0'}
 
+- name: Add certain apps to THIRD_PARTY_APPS in base.py
+  update_apps:
+    base_py: "{{ django_project_folder }}/config/settings/base.py"
