@@ -1,0 +1,20 @@
+
+#- name: Create heroku staging app
+#  shell: heroku apps:create {{ django_project_slug | replace('_','-') }}-staging
+#  args:
+#    chdir: "{{ django_project_folder }}"
+
+#- name: Create heroku postgres database
+#  shell: heroku addons:create heroku-postgresql:hobby-dev
+#  args:
+#    chdir: "{{ django_project_folder }}"
+
+#- name: Create heroku redis
+#  shell: heroku addons:create heroku-redis:hobby-dev -a {{ django_project_slug | replace('_','-') }}-staging
+#  args:
+#    chdir: "{{ django_project_folder }}"
+
+- name: Create heroku mailgun
+  shell: heroku addons:create mailgun:starter
+  args:
+    chdir: "{{ django_project_folder }}"

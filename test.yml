@@ -11,4 +11,4 @@
   tasks:
 
     - name: Test that my module works
-      include_tasks: ./tasks/pip_requirements.yml
+      include_tasks: ./tasks/heroku_config.yml
