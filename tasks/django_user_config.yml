@@ -1,0 +1,12 @@
+- name: Build containeres
+  shell: docker-compose -f local.yml build
+  args:
+    chdir: "{{ django_project_folder }}"
+- name: Migrate
+  shell: docker-compose -f local.yml run django python manage.py migrate
+  args:
+    chdir: "{{ django_project_folder }}"
+- name: Create super user
+  shell: docker-compose -f local.yml run -e DJANGO_SUPERUSER_USERNAME=luiscberrocal -e DJANGO_SUPERUSER_EMAIL=Batman@justice.org -e DJANGO_SUPERUSER_PASSWORD=_My12345 django python manage.py createsuperuser --no-input
+  args:
+    chdir: "{{ django_project_folder }}"

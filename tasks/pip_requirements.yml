@@ -1,0 +1,24 @@
+- name: Update base requirements
+  lineinfile:
+    path: "{{ django_project_folder }}/requirements/base.txt"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: '^django-import-export==\d\.\d\.\d.*', line: 'django-import-export==2.4.0'}
+    - {regexp: '^django-role-permissions==\d\.\d\.\d.*',  line: 'django-role-permissions==3.1.1'}
+    - {regexp: '^pandas==\d\.\d\.\d.*', line: 'pandas==1.1.5'}
+    - {regexp: '^(django)==\d\.\d\.\d.*', line: 'django==3.1.4'}
+
+- name: Update local requirements
+  lineinfile:
+    path: "{{ django_project_folder }}/requirements/local.txt"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: '^(django-test-tools)==\d\.\d\.\d.*', line: 'django-test-tools==1.10.6'}
+    - {regexp: '^(django-test-plus)==\d\.\d\.\d.*', line: 'django-test-plus==1.4.0'}
+    - {regexp: '^(selenium)==\d\.\d\.\d.*', line: 'selenium==3.141.0'}
+
+- name: Add certain apps to THIRD_PARTY_APPS in base.py
+  update_apps:
+    base_py: "{{ django_project_folder }}/config/settings/base.py"
