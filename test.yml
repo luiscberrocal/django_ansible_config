@@ -8,7 +8,10 @@
     cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
     github_token_file: "{{ pycharm_project_folder }}/django_ansible_config/.secrets/github_token.txt"
+    aws_staging_bucket: "{{ django_project_slug | replace('_','-') }}-staging-bucket"
+    aws_staging_user: "{{ django_project_slug | replace('_','-') }}-staging-user"
+    aws_staging_group: "{{ django_project_slug | replace('_','-') }}-staging-group"
   tasks:
 
     - name: Test that my module works
-      include_tasks: ./tasks/heroku_config.yml
+      include_tasks: ./tasks/aws_config.yml

@@ -1,0 +1,1 @@
+https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/
