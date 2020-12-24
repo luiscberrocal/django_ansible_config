@@ -9,18 +9,9 @@
 
 - name: Create AWS S3 staging bucket
   shell: "aws s3 mb s3://{{ aws_staging_bucket }}"
-  args:
-    chdir: "{{ django_project_folder }}"
 
 - name: Create IAM Security Group
   shell: "aws iam create-group --group-name {{ aws_staging_group }}"
-  args:
-    chdir: "{{ django_project_folder }}"
-
-
-#
-#- debug:
-#    msg: "{{ large_script_result }}"
 
 - template:
     src: "../templates/s3_policy.json.j2"
@@ -35,7 +26,11 @@
     executable: /bin/bash
   register: large_script_result
 
-#- name: Block public access AWS S3 staging bucket
-#  shell: 'aws s3api put-public-access-block --bucket {{ aws_staging_bucket }} --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"'
-#  args:
-#    chdir: "{{ django_project_folder }}"
+- name: Create AWS Staging User
+  shell: "aws iam create-user --user-name {{ aws_staging_user }}"
+
+- name: Create Access Key for User
+  shell: "aws iam create-access-key --user-name {{ aws_staging_user }} > ./output/{{ aws_staging_user }}-access.json"
+
+- name: Attach staging user to staging group
+  shell: "aws iam add-user-to-group --user-name {{ aws_staging_user }} --group-name {{ aws_staging_group }}"
