@@ -18,7 +18,7 @@
 
 - name: Adds version to base.html
   update_version:
-    base_html: "{{ django_project_folder }}/{{django_project_slug}}/templates/base.html"
+    base_html: "{{ django_project_folder }}/{{c}}/templates/base.html"
   #register: result
 
 - name: Ensure TEST_OUTPUT_PATH is set
@@ -51,3 +51,12 @@
   shell: git checkout develop && git add . && git commit -m "Add output variable, LANGUAGES and version"
   args:
     chdir: "{{ django_project_folder }}"
+
+- name: Copy admin css files
+  copy:
+    src: {{ item.src }}
+    dest: "{{ django_project_folder }}/{{django_project_folder}}/static/css"
+  with_items:
+    - {src: "./files/css/admin-dev.css"}
+    - {src: "./files/css/admin-prod.css"}
+    - {src: "./files/css/admin-staging.css"}
