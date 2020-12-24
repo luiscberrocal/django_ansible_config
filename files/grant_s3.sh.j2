@@ -1,4 +1,4 @@
 #!/bin/sh
-export POLICYARN=$(aws iam list-policies --query 'Policies[?PolicyName==`AmazonS3FullAccess`].{ARN:Arn}' --output text)
+export POLICYARN=$(aws iam list-policies --query 'Policies[?PolicyName==`{{ aws_staging_bucket }}-policy`].{ARN:Arn}' --output text)
 echo $POLICYARN
 aws iam attach-group-policy  --group-name {{ aws_staging_group }} --policy-arn $POLICYARN

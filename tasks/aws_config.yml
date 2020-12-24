@@ -7,21 +7,17 @@
 #    --bucket my-bucket \
 #    --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
 
-#- name: Create AWS S3 staging bucket
-#  shell: "aws s3 mb s3://{{ aws_staging_bucket }}"
-#  args:
-#    chdir: "{{ django_project_folder }}"
-#
-#- name: Create IAM Security Group
-#  shell: "aws iam create-group --group-name {{ aws_staging_group }}"
-#  args:
-#    chdir: "{{ django_project_folder }}"
+- name: Create AWS S3 staging bucket
+  shell: "aws s3 mb s3://{{ aws_staging_bucket }}"
+  args:
+    chdir: "{{ django_project_folder }}"
 
-#- name: Grant AmazonS3FullAccess to {{ aws_staging_group }}
-#  shell: "{{ lookup('template', '../files/grant_s3.sh.j2') }}"
-#  args:
-#    executable: /bin/bash
-#  register: large_script_result
+- name: Create IAM Security Group
+  shell: "aws iam create-group --group-name {{ aws_staging_group }}"
+  args:
+    chdir: "{{ django_project_folder }}"
+
+
 #
 #- debug:
 #    msg: "{{ large_script_result }}"
@@ -33,8 +29,12 @@
 - name: Create a Policy for staing bucket
   shell: "aws iam create-policy --policy-name {{ aws_staging_bucket }}-policy --policy-document file://./output/{{ aws_staging_bucket }}_policy.json"
 
-#
--
+- name: Grant {{ aws_staging_bucket }}-policy to {{ aws_staging_group }}
+  shell: "{{ lookup('template', '../files/grant_s3.sh.j2') }}"
+  args:
+    executable: /bin/bash
+  register: large_script_result
+
 #- name: Block public access AWS S3 staging bucket
 #  shell: 'aws s3api put-public-access-block --bucket {{ aws_staging_bucket }} --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"'
 #  args:
