@@ -30,7 +30,7 @@
   shell: "aws iam create-user --user-name {{ aws_staging_user }}"
 
 - name: Create Access Key for User
-  shell: "aws iam create-access-key --user-name {{ aws_staging_user }} > ./output/{{ aws_staging_user }}-access.json"
+  shell: "aws iam create-access-key --user-name {{ aws_staging_user }} --output yaml > ./output/{{ aws_staging_user }}-access.yml"
 
 - name: Attach staging user to staging group
   shell: "aws iam add-user-to-group --user-name {{ aws_staging_user }} --group-name {{ aws_staging_group }}"
