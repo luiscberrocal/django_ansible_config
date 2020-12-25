@@ -1,0 +1,36 @@
+- name: Reset local environment
+  hosts: localhost
+  tasks:
+    - include_vars:
+        file: "./cookiecutter/cookiecutter-config.yml"
+        name: cc
+    - set_fact:
+        django_project_slug: "{{ cc.default_context.project_slug }}"
+        django_project_name: "{{ cc.default_context.project_name }}"
+        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+    - debug:
+        msg: "{{ django_project_slug }}"
+    - name: Delete directory
+      file:
+        path: "{{pycharm_project_folder}}/{{django_project_slug}}"
+        state: absent
+    - name: Stop all containers
+      shell: docker stop $(docker ps -qa)
+
+    - name: Get postgres container line
+      shell: "docker ps -a | grep {{django_project_slug}}_production"
+      register: results
+
+    - name: Get post container id
+      set_fact:
+        postgres_container: "{{ results.stdout | regex_search(regexp,'\\1') | first }}"
+      vars:
+        regexp: '([a-z0-9]{12})\s+'
+    - name: Delete postgres image
+      shell: "docker rm {{postgres_container}}"
+    - name: Delete volume
+      shell: "docker volume rm {{django_project_slug}}_local_postgres_data"
+    - name: Delete backups volume
+      shell: "docker volume rm {{django_project_slug}}_local_postgres_data_backups"
+
+
