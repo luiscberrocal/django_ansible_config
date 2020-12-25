@@ -50,11 +50,21 @@
 #  args:
 #    chdir: "{{ django_project_folder }}"
 
-- name: Copy admin css files
+#- name: Copy admin css files
+#  copy:
+#    src: "{{ item.src }}"
+#    dest: "{{ django_project_folder }}/{{django_project_slug}}/static/css"
+#  loop:
+#    - {src: "./files/css/admin-dev.css"}
+#    - {src: "./files/css/admin-prod.css"}
+#    - {src: "./files/css/admin-staging.css"}
+
+- name: Create template/admin folder
+  file:
+    path: "{{ django_project_folder }}/{{django_project_slug}}/templates/admin"
+    state: directory
+
+- name: Copy admin html template
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ django_project_folder }}/{{django_project_slug}}/static/css"
-  loop:
-    - {src: "./files/css/admin-dev.css"}
-    - {src: "./files/css/admin-prod.css"}
-    - {src: "./files/css/admin-staging.css"}
+    src: "./files/admin/base_site.html"
+    dest: "{{ django_project_folder }}/{{django_project_slug}}/templates/admin"
