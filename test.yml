@@ -14,4 +14,4 @@
   tasks:
 
     - name: Test that my module works
-      include_tasks: ./tasks/heroku_config.yml
+      include_tasks: ./tasks/django_config.yml
