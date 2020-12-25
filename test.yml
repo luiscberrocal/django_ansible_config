@@ -1,9 +1,13 @@
 - name: Test Django ansible play book
   hosts: localhost
+#  include_vars:
+#    file: "./cookiecutter/cookiecutter-config.yml"
+#    name: cookiecutter
   vars:
     pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
     ansible_project_folder: "{{ pycharm_project_folder }}/django_ansible_config"
     django_project_slug: rec_promoter_app
+    django_project_name: "REC Promoter App"
     django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
     cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
@@ -12,6 +16,7 @@
     aws_staging_user: "{{ django_project_slug | replace('_','-') }}-staging-user"
     aws_staging_group: "{{ django_project_slug | replace('_','-') }}-staging-group"
   tasks:
-
+    - debug:
+        msg: "{{ cookiecutter }}"
     - name: Test that my module works
       include_tasks: ./tasks/django_config.yml
