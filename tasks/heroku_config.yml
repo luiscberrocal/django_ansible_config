@@ -20,7 +20,7 @@
 #  args:
 #    chdir: "{{ django_project_folder }}"
 
-- name: Conditionally decide to load in variables into 'plans' when x is 0, otherwise do not. (2.2)
+- name: Load user access keys
   include_vars:
     file: "./output/{{ aws_staging_user }}-access.yml"
     name: access_keys

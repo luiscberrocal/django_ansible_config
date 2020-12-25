@@ -4,6 +4,7 @@
     pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
     ansible_project_folder: "{{ pycharm_project_folder }}/django_ansible_config"
     django_project_slug: rec_promoter_app
+    django_project_name: "REC Promoter App"
     django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
     cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
     github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
@@ -21,8 +22,8 @@
       include_tasks: ./tasks/django_config.yml
     - name: Configure django super user
       include_tasks: ./tasks/django_user_config.yml
-    - name: Test that my module works
-      include_tasks: ./tasks/pip_requirements.yml
+#    - name: Test that my module works
+#      include_tasks: ./tasks/pip_requirements.yml
 #    - name: Crete github repo
 #      include_tasks: ./tasks/github_repo.yml
 
