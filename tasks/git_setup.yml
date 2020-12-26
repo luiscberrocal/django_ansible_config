@@ -1,9 +1,11 @@
-- name: Get stats of the .git folder
+- name: Get status of the .git folder
   ansible.builtin.stat:
     path: "{{ django_project_folder }}/.git"
   register: git_folder
+- debug:
+    msg: "{{ git_folder }}"
 
-- name: Init the git repo
+- name: Init the git repo if not initialized
   shell: git init
   args:
     creates: .init

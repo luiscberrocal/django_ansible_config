@@ -1,3 +1,0 @@
-django-test-tools==1.10.6
-django-test-plus==1.4.0
-selenium==3.141.0
