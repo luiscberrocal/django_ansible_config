@@ -82,10 +82,6 @@
 #
 - name: Setting Heroku DJANGO_ALLOWED_HOSTS
   shell: "heroku config:set DJANGO_ALLOWED_HOSTS={{ heroku_staging_app }}.herokuapp.com --app {{heroku_staging_app}}"
-#
-#
-#
-#
-#
-# ENVIRONMENT_NAME
-#
+
+- name: Push app to Heroku
+  shell: "git push heroku master"
