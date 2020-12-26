@@ -50,7 +50,7 @@
   shell: "heroku config:set ENVIRONMENT_ADMIN_CSS=css/admin-staging.css --app {{heroku_staging_app}}"
 
 - name: Setting Heroku ENVIRONMENT_NAME
-  shell: "heroku config:set ENVIRONMENT_NAME=PRODUCTION --app {{heroku_staging_app}}"
+  shell: "heroku config:set ENVIRONMENT_NAME=STAGING --app {{heroku_staging_app}}"
 
 - name: Setting Heroku USE_DOCKER
   shell: "heroku config:set USE_DOCKER=no --app {{heroku_staging_app}}"
@@ -88,6 +88,11 @@
   args:
     chdir: "{{ django_project_folder }}"
 
+- name: Sleep for 15 seconds and continue with play
+  wait_for:
+    timeout: 15
+  delegate_to: localhost
+
 - name: Setting Heroku DJANGO_SUPERUSER_USERNAME
   shell: "heroku config:set DJANGO_SUPERUSER_USERNAME={{credentials.dev.username}} --app {{heroku_staging_app}}"
 
@@ -99,3 +104,12 @@
 
 - name: Create super user
   shell: "heroku run  --app {{heroku_staging_app}} python manage.py createsuperuser --no-input"
+
+- name: Unetting Heroku DJANGO_SUPERUSER_USERNAME
+  shell: "heroku config:unset DJANGO_SUPERUSER_USERNAME --app {{heroku_staging_app}}"
+
+- name: Unsetting Heroku DJANGO_SUPERUSER_EMAIL
+  shell: "heroku config:unset --app {{heroku_staging_app}}"
+
+- name: Unsetting Heroku DJANGO_SUPERUSER_PASSWORD
+  shell: "heroku config:unset DJANGO_SUPERUSER_PASSWORD --app {{heroku_staging_app}}"
