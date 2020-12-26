@@ -17,3 +17,13 @@
   shell: "docker-compose -f local.yml run -e DJANGO_SUPERUSER_USERNAME={{credentials.dev.username}} -e DJANGO_SUPERUSER_EMAIL={{credentials.dev.email}} -e DJANGO_SUPERUSER_PASSWORD={{credentials.dev.pwd}} django python manage.py createsuperuser --no-input"
   args:
     chdir: "{{ django_project_folder }}"
+
+- name: Create messages for spanish
+  shell: "docker-compose -f local.yml run django python manage.py makemessages -l es"
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: Compile messages for spanish
+  shell: "docker-compose -f local.yml run django python manage.py compilemessages"
+  args:
+    chdir: "{{ django_project_folder }}"
