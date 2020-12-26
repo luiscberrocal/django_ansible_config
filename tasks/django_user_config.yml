@@ -14,6 +14,6 @@
     chdir: "{{ django_project_folder }}"
 
 - name: Create super user
-  shell: docker-compose -f local.yml run -e DJANGO_SUPERUSER_USERNAME=luiscberrocal -e DJANGO_SUPERUSER_EMAIL=Batman@justice.org -e DJANGO_SUPERUSER_PASSWORD=_My12345 django python manage.py createsuperuser --no-input
+  shell: "docker-compose -f local.yml run -e DJANGO_SUPERUSER_USERNAME={{credentials.dev.username}} -e DJANGO_SUPERUSER_EMAIL={{credentials.dev.email}} -e DJANGO_SUPERUSER_PASSWORD={{credentials.dev.pwd}} django python manage.py createsuperuser --no-input"
   args:
     chdir: "{{ django_project_folder }}"

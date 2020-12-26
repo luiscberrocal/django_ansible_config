@@ -87,3 +87,15 @@
   shell: "git push heroku master"
   args:
     chdir: "{{ django_project_folder }}"
+
+- name: Setting Heroku DJANGO_SUPERUSER_USERNAME
+  shell: "heroku config:set DJANGO_SUPERUSER_USERNAME={{credentials.dev.username}} --app {{heroku_staging_app}}"
+
+- name: Setting Heroku DJANGO_SUPERUSER_EMAIL
+  shell: "heroku config:set DJANGO_SUPERUSER_EMAIL={{credentials.dev.email}} --app {{heroku_staging_app}}"
+
+- name: Setting Heroku DJANGO_SUPERUSER_PASSWORD
+  shell: "heroku config:set DJANGO_SUPERUSER_PASSWORD={{credentials.dev.pwd}}  --app {{heroku_staging_app}}"
+
+- name: Create super user
+  shell: "heroku run  --app {{heroku_staging_app}} python manage.py createsuperuser --no-input"
