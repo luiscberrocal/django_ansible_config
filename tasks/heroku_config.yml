@@ -85,3 +85,5 @@
 
 - name: Push app to Heroku
   shell: "git push heroku master"
+  args:
+    chdir: "{{ django_project_folder }}"
