@@ -88,9 +88,9 @@
   args:
     chdir: "{{ django_project_folder }}"
 
-- name: Sleep for 60 seconds and continue with play
+- name: Sleep for 300 seconds and continue with play
   wait_for:
-    timeout: 60
+    timeout: 300
   delegate_to: localhost
 
 - name: Setting Heroku DJANGO_SUPERUSER_USERNAME
@@ -105,7 +105,7 @@
 - name: Create super user
   shell: "heroku run  --app {{heroku_staging_app}} python manage.py createsuperuser --no-input"
 
-- name: Unetting Heroku DJANGO_SUPERUSER_USERNAME
+- name: Unsetting Heroku DJANGO_SUPERUSER_USERNAME
   shell: "heroku config:unset DJANGO_SUPERUSER_USERNAME --app {{heroku_staging_app}}"
 
 - name: Unsetting Heroku DJANGO_SUPERUSER_EMAIL
