@@ -27,6 +27,7 @@ default_context:
     ci_tool: "Github"
     keep_local_envs_in_vcs: "y"
     debug: "n"
+    allow_suscription: "n"
 #extra_context:
 #
 cookiecutters_dir: "/Users/luiscberrocal/PycharmProjects/django_ansible_config/cookiecutter"
