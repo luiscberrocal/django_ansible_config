@@ -30,6 +30,8 @@
       include_tasks: ./tasks/django_project.yml
     - name: Configure django super user
       include_tasks: ./tasks/django_user_config.yml
+    - name: Add python scripts
+      include_tasks: ./tasks/python_scripts.yml
     - name: Git setup
       include_tasks: ./tasks/git_setup.yml
 #    - name: AWS Configuration
@@ -38,10 +40,10 @@
 #        msg: "T: {{credentials}}"
     - name: Heroku Configuration
       include_tasks: ./tasks/heroku_config.yml
-      when: 1 == 2
-    - name: Heroku Superuser for stating
-      include_tasks: ./tasks/heroku_superuser.yml
-      when: 1 == 2
+      when: 1 == 1
+#    - name: Heroku Superuser for stating
+#      include_tasks: ./tasks/heroku_superuser.yml
+#      when: 1 == 1
 
 
 #    - name: Crete github repo

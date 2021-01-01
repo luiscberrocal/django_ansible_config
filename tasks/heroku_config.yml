@@ -1,5 +1,7 @@
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact: heroku_staging_app={{ django_project_slug | replace('_','-') }}-staging
+  set_fact:
+    heroku_staging_app: "{{ django_project_slug | replace('_','-') }}-staging"
+    heroku_prod_app: "{{ django_project_slug | replace('_','-') }}"
 
 - name: Create heroku staging app
   shell: heroku apps:create {{ heroku_staging_app }}
