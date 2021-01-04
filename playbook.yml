@@ -21,7 +21,7 @@
         aws_staging_bucket: "{{ django_project_slug | replace('_','-') }}-staging-bucket"
         aws_staging_user: "{{ django_project_slug | replace('_','-') }}-staging-user"
         aws_staging_group: "{{ django_project_slug | replace('_','-') }}-staging-group"
-        database_backup_folder: "/Users/luiscberrocal//Dropbox/Temp"
+        database_backup_folder: "/Users/luiscberrocal/Dropbox/Temp"
 
     - name: Setting up cookiecutter
       set_fact:
@@ -40,7 +40,7 @@
 #        msg: "T: {{credentials}}"
     - name: Heroku Configuration
       include_tasks: ./tasks/heroku_config.yml
-      when: 1 == 1
+      when: 1 == 2
 #    - name: Heroku Superuser for stating
 #      include_tasks: ./tasks/heroku_superuser.yml
 #      when: 1 == 1

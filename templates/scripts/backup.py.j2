@@ -32,12 +32,12 @@ info_regexps['backup_size'] = {'regexp': size_regex, 'line': 7}
 ENVIRONMENTS = {
     'production': {
         'app_name': '{{ heroku_prod_app }}',
-        'folder': 'emr_prod',
+        'folder': '{{ django_project_slug }}_prod',
         'base_url': 'https://{{ heroku_prod_app }}.herokuapp.com'
     },
     'staging': {
         'app_name': '{{ heroku_staging_app }}',
-        'folder': 'emr_staging',
+        'folder': '{{ django_project_slug }}_staging',
         'base_url': 'https://{{ heroku_staging_app }}.herokuapp.com'
     },
 }
