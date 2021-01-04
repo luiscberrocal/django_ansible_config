@@ -18,3 +18,12 @@ Copy cookiecutter configuration to the project. In my example the
 Create a repo with the same name as your cookiecutter slug **rec_promoter_app** for our example
 
 
+## How to use
+
+Edit cookiecutter/cookiecutter-config.yml especifically the **project_name** and
+**project_slug**.
+
+Run:
+
+    $ ansible-playbook playbook.yml
+    

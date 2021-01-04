@@ -1,24 +1,27 @@
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact: heroku_staging_app={{ django_project_slug | replace('_','-') }}-staging
-#- name: Create heroku staging app
-#  shell: heroku apps:create {{ heroku_staging_app }}
-#  args:
-#    chdir: "{{ django_project_folder }}"
+  set_fact:
+    heroku_staging_app: "{{ django_project_slug | replace('_','-') }}-staging"
+    heroku_prod_app: "{{ django_project_slug | replace('_','-') }}"
 
-#- name: Create heroku postgres database
-#  shell: heroku addons:create heroku-postgresql:hobby-dev
-#  args:
-#    chdir: "{{ django_project_folder }}"
+- name: Create heroku staging app
+  shell: heroku apps:create {{ heroku_staging_app }}
+  args:
+    chdir: "{{ django_project_folder }}"
 
-#- name: Create heroku redis
-#  shell: heroku addons:create heroku-redis:hobby-dev -a {{ django_project_slug | replace('_','-') }}-staging
-#  args:
-#    chdir: "{{ django_project_folder }}"
+- name: Create heroku postgres database
+  shell: heroku addons:create heroku-postgresql:hobby-dev
+  args:
+    chdir: "{{ django_project_folder }}"
 
-#- name: Create heroku mailgun
-#  shell: heroku addons:create mailgun:starter
-#  args:
-#    chdir: "{{ django_project_folder }}"
+- name: Create heroku redis
+  shell: heroku addons:create heroku-redis:hobby-dev -a {{ django_project_slug | replace('_','-') }}-staging
+  args:
+    chdir: "{{ django_project_folder }}"
+
+- name: Create heroku mailgun
+  shell: heroku addons:create mailgun:starter
+  args:
+    chdir: "{{ django_project_folder }}"
 
 - name: Load user access keys
   include_vars:
@@ -49,18 +52,25 @@
   shell: "heroku config:set ENVIRONMENT_ADMIN_CSS=css/admin-staging.css --app {{heroku_staging_app}}"
 
 - name: Setting Heroku ENVIRONMENT_NAME
-  shell: "heroku config:set ENVIRONMENT_NAME=PRODUCTION --app {{heroku_staging_app}}"
+  shell: "heroku config:set ENVIRONMENT_NAME=STAGING --app {{heroku_staging_app}}"
 
 - name: Setting Heroku USE_DOCKER
   shell: "heroku config:set USE_DOCKER=no --app {{heroku_staging_app}}"
 
+- name: Sleep for 300 seconds and continue with play
+  wait_for:
+    timeout: 300
+  delegate_to: localhost
+
 - name: Get Heroku REDIS_URL
   shell: "heroku config --app {{heroku_staging_app}} | grep REDIS_URL:"
-  register: results
+  register: create_redis
+  until: create_redis is not failed
+  retries: 5
 
 - name: Set REDIS_URL to celery_url
   set_fact:
-    celery_url: "{{ results.stdout | regex_search(regexp,'\\1') | first }}"
+    celery_url: "{{ create_redis.stdout | regex_search(regexp,'\\1') | first }}"
   vars:
     regexp: 'REDIS_URL\:\s+(redis:\/\/:[\w\-@\.]+:\d+)'
 #- debug:
@@ -74,10 +84,9 @@
 #
 - name: Setting Heroku DJANGO_ALLOWED_HOSTS
   shell: "heroku config:set DJANGO_ALLOWED_HOSTS={{ heroku_staging_app }}.herokuapp.com --app {{heroku_staging_app}}"
-#
-#
-#
-#
-#
-# ENVIRONMENT_NAME
-#
+
+- name: Push app to Heroku
+  shell: "git push heroku master"
+  args:
+    chdir: "{{ django_project_folder }}"
+

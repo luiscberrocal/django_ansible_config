@@ -1,5 +1,0 @@
-from {{ django_project_slug }} import __version__ as current_version
-
-admin.site.site_header = _("{{ django_project_name }} v{}".format(current_version))
-admin.site.site_title = _("{{ django_project_name}} v{}".format(current_version))
-admin.site.index_title = _("Welcome to {{ django_project_name }} Portal")

@@ -1,0 +1,14 @@
+- name: Setting host facts using key=value pairs, note that this always creates strings or booleans
+  set_fact:
+    heroku_staging_app: "{{ django_project_slug | replace('_','-') }}-staging"
+    heroku_prod_app: "{{ django_project_slug | replace('_','-') }}"
+- name: Create scripts folder
+  file:
+    path: "{{ django_project_folder }}/scripts"
+    state: directory
+- template:
+    src: "../templates/scripts/backup.py.j2"
+    dest: "{{ django_project_folder }}/scripts/backup.py"
+- template:
+    src: "../templates/scripts/bump.py.j2"
+    dest: "{{ django_project_folder }}/scripts/bump.py"

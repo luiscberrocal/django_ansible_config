@@ -16,7 +16,7 @@
         state: absent
     - name: Stop all containers
       shell: docker stop $(docker ps -qa)
-
+# docker ps -a | awk '{ print $1,$2 }' | grep rec_promoter_app | awk '{print $1 }' | xargs -I {} docker rm {}
     - name: Get postgres container line
       shell: "docker ps -a | grep {{django_project_slug}}_production"
       register: results
