@@ -34,20 +34,16 @@
       include_tasks: ./tasks/python_scripts.yml
     - name: Git setup
       include_tasks: ./tasks/git_setup.yml
-#    - name: AWS Configuration
-#      include_tasks: ./tasks/aws_config.yml
-#    - debug:
-#        msg: "T: {{credentials}}"
+    - name: AWS Configuration
+      include_tasks: ./tasks/aws_config.yml
     - name: Heroku Configuration
       include_tasks: ./tasks/heroku_config.yml
-      when: 1 == 2
+      when: 1 == 1
 #    - name: Heroku Superuser for stating
 #      include_tasks: ./tasks/heroku_superuser.yml
 #      when: 1 == 1
-
-
-#    - name: Crete github repo
-#      include_tasks: ./tasks/github_repo.yml
+    - name: Crete github repo
+      include_tasks: ./tasks/github_repo.yml
 
 
 
