@@ -4,12 +4,15 @@
     - include_vars:
         file: "./cookiecutter/cookiecutter-config.yml"
         name: cc
-    - set_fact:
+    - name: Basic variable setup
+      set_fact:
         django_project_slug: "{{ cc.default_context.project_slug }}"
         django_project_name: "{{ cc.default_context.project_name }}"
         pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
-        templates_destination: "./output/{{ django_app_name }}"
         templates_source: './templates/django_app_name'
+    - name: Setup destination
+      set_fact:
+        templates_destination: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/{{ django_app_name }}"
     - name: Ensure directory structure exists
       file:
         path: '{{ templates_destination }}/{{ item.path }}'
