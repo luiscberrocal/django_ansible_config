@@ -20,14 +20,17 @@
     - name: Get postgres container line
       shell: "docker ps -a | grep {{django_project_slug}}_production"
       register: results
+      failed_when: results.rc >= 2
 
     - name: Get post container id
       set_fact:
         postgres_container: "{{ results.stdout | regex_search(regexp,'\\1') | first }}"
       vars:
         regexp: '([a-z0-9]{12})\s+'
+      when: results.stdout | length > 0
     - name: Delete postgres image
       shell: "docker rm {{postgres_container}}"
+      when: results.stdout | length > 0
     - name: Delete volume
       shell: "docker volume rm {{django_project_slug}}_local_postgres_data"
     - name: Delete backups volume
