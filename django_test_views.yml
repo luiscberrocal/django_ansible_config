@@ -1,0 +1,22 @@
+- name: Create a Django app
+  hosts: localhost
+  tasks:
+    - include_vars:
+        file: "./cookiecutter/cookiecutter-config.yml"
+        name: cc
+    - name: Basic variable setup
+      set_fact:
+        django_project_slug: "{{ cc.default_context.project_slug }}"
+        django_project_name: "{{ cc.default_context.project_name }}"
+        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+        templates_source: './templates/test_views.py.j2'
+    - name: Setup destination
+      set_fact:
+        templates_destination: './output/test_views.py'
+    - name: Create test views
+      template:
+        src: '{{ templates_source }}'
+        dest: '{{ templates_destination }}'
+
+
+

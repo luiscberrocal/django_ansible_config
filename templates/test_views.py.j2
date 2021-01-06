@@ -1,0 +1,69 @@
+
+
+class Test{{ model_name }}CreateView(TestCase):
+
+    def setUp(self) -> None:
+        self.app_user = SimpleUserFactory.create()
+
+    def test_post(self):
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
+        {{ model_name | to_snake_case }}_dict = model_to_json_dict({{ model_name | to_snake_case }})
+        {{ model_name | to_snake_case }}_dict.pop('id')
+        {{ model_name | to_snake_case }}.delete()
+
+        with self.login(self.physician.user):
+            response = self.post('{{ namespace }}:create-{{ model_name | to_dash_case }}', data={{ model_name | to_snake_case }}_dict)
+            self.response_302(response)
+
+        self.assertEqual({{ model_name }}.objects.count(), 1)
+
+    def test_get(self):
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
+        {{ model_name | to_snake_case }}.delete()
+
+        with self.login(self.physician.user):
+            response = self.get('finance:create-{{ model_name | to_dash_case }}')
+            self.response_200(response)
+
+    def test_post_user_without_roles(self):
+        physician = PhysicianFactory.create()
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(clinic=physician.clinics.first())
+        {{ model_name | to_snake_case }}_dict = model_to_json_dict({{ model_name | to_snake_case }})
+        {{ model_name | to_snake_case }}_dict.pop('id')
+        {{ model_name | to_snake_case }}.delete()
+
+        with self.login(physician.user):
+            response = self.post('{{ namespace }}:create-{{ model_name | to_dash_case }}', data={{ model_name | to_snake_case }}_dict)
+            self.response_403(response)
+        self.assertEqual({{ model_name }}.objects.count(), 0)
+
+
+class Test{{ model_name }}UpdateView(TestCase):
+
+    def setUp(self) -> None:
+        self.physician = PhysicianFactory.create()
+        self.clinic = self.physician.clinics.first()
+        assign_role(self.physician.user, 'physician')
+
+    def test_get(self):
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
+
+        with self.login(self.physician.user):
+            response = self.post('{{ namespace }}:update-{{ model_name | to_dash_case }}', pk={{ model_name | to_snake_case }}.pk)
+            self.response_200(response)
+
+    def test_post_update_attribute(self):
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
+
+        {{ model_name | to_snake_case }}_dict = model_to_dict({{ model_name | to_snake_case }})
+        {{ model_name | to_snake_case }}_dict['attribute'] = att_value $FIXME
+
+
+        with self.login(self.physician.user):
+            response = self.post('{{ namespace }}:update-{{ model_name | to_dash_case }}', pk={{ model_name | to_snake_case }}.pk, data={{ model_name | to_snake_case }}_dict)
+            self.response_302(response)
+
+        self.assertEqual({{ model_name }}.objects.count(), 1)
+
+        db_{{ model_name | to_snake_case }} = {{ model_name }}.objects.get(id={{ model_name | to_snake_case }}.id)
+        self.assertEqual(db_{{ model_name | to_snake_case }}.attribute, {{ model_name | to_snake_case }}_dict['attribute'])
