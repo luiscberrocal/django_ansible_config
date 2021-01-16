@@ -1,6 +1,11 @@
 - name: Django ansible playbook
   hosts: localhost
   tasks:
+    - name: Current installation user.
+      user:
+        name: luiscberrocal
+        state: present
+      register: current_user_data
     - include_vars:
         file: "./cookiecutter/cookiecutter-config.yml"
         name: cc
@@ -11,7 +16,7 @@
       set_fact:
         django_project_slug: "{{ cc.default_context.project_slug }}"
         django_project_name: "{{ cc.default_context.project_name }}"
-        pycharm_project_folder: "/Users/luiscberrocal/PycharmProjects"
+        pycharm_project_folder: "{{current_user_data.home}}/PycharmProjects"
     - name: Setting folders
       set_fact:
         ansible_project_folder: "{{ pycharm_project_folder }}/django_ansible_config"
@@ -21,7 +26,7 @@
         aws_staging_bucket: "{{ django_project_slug | replace('_','-') }}-staging-bucket"
         aws_staging_user: "{{ django_project_slug | replace('_','-') }}-staging-user"
         aws_staging_group: "{{ django_project_slug | replace('_','-') }}-staging-group"
-        database_backup_folder: "/Users/luiscberrocal/Dropbox/Temp"
+        database_backup_folder: "{{current_user_data.home}}/Dropbox/Temp"
 
     - name: Setting up cookiecutter
       set_fact:
