@@ -23,7 +23,25 @@ Create a repo with the same name as your cookiecutter slug **rec_promoter_app** 
 Edit cookiecutter/cookiecutter-config.yml especifically the **project_name** and
 **project_slug**.
 
+Steps before running:
+
+    1. Run:
+        $ ansible-playbook prep_secrets.yml --extra-vars '{"pwd":"12333"}'
+
+    2. Edot  the file named .secrets/credential.yml with the following below. This content will ber used to create your super user in Django:
+
+        dev:
+            username: your-username
+            pwd: your-password
+            email: your-email
+        staging:
+            username: your-username
+            pwd: your-password
+            email: your-email
+
 Run:
 
     $ ansible-playbook playbook.yml
+
+
     
