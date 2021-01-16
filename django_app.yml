@@ -1,0 +1,30 @@
+- name: Reset local environment
+  hosts: localhost
+  tasks:
+    - include_vars:
+        file: "./cookiecutter/cookiecutter-config.yml"
+        name: cc
+    - name: Basic variable setup
+      set_fact:
+        django_project_slug: "{{ cc.default_context.project_slug }}"
+        django_project_name: "{{ cc.default_context.project_name }}"
+        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+        templates_source: './templates/django_app_name'
+    - name: Setup destination
+      set_fact:
+        templates_destination: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/{{ django_app_name }}"
+    - name: Ensure directory structure exists
+      file:
+        path: '{{ templates_destination }}/{{ item.path }}'
+        state: directory
+      with_filetree: '{{templates_source}}'
+      when: item.state == 'directory'
+    - name: Ensure files are populated from templates
+      template:
+        src: '{{ item.src }}'
+        dest: '{{ templates_destination }}/{{ item.path }}'
+      with_filetree: '{{ templates_source }}'
+      when: item.state == 'file'
+
+
+
