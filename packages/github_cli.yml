@@ -1,7 +1,42 @@
 - name: Install github cli
   hosts: localhost
   tasks:
-    - name: Install gh
+    - name: Install Github CLI on Mac
       shell: brew install gh
       become: yes
       become_user: luiscberrocal
+      when: ansible_distribution == "MacOsx"
+    - name: Add Ubuntu key  on Pop!_OS
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: C99B11DEB97541F0
+        state: present
+      become: yes
+      #become_user: luiscberrocal
+      when: ansible_distribution == "Pop!_OS"
+
+    - name: Add github repository into sources list
+      apt_repository:
+        repo: "deb https://cli.github.com/packages groovy main"
+        state: present
+        update_cache: no
+      register: apt_repository
+      when: ansible_distribution == "Pop!_OS"
+
+    - name: Update APT package list
+      become: yes
+      apt:
+        update_cache: yes
+      when: apt_repository.changed
+      register: apt_update
+      retries: 5
+      until: apt_update is success
+    - name: Install github cli
+      become: yes
+      apt:
+        package: gh
+
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+#sudo apt-add-repository https://cli.github.com/packages
+#sudo apt update
+#sudo apt install gh
