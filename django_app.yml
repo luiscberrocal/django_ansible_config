@@ -1,4 +1,4 @@
-- name: Reset local environment
+- name: Create a Django app
   hosts: localhost
   tasks:
     - include_vars:
