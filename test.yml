@@ -16,7 +16,5 @@
     aws_staging_user: "{{ django_project_slug | replace('_','-') }}-staging-user"
     aws_staging_group: "{{ django_project_slug | replace('_','-') }}-staging-group"
   tasks:
-    - debug:
-        msg: "{{ cookiecutter }}"
-    - name: Test that my module works
-      include_tasks: ./tasks/django_config.yml
+    - name: Distribution
+      debug: msg="{{ ansible_distribution }}"
