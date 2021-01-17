@@ -4,6 +4,8 @@ class Test{{ model_name }}CreateView(TestCase):
 
     def setUp(self) -> None:
         self.app_user = SimpleUserFactory.create()
+        {% if apply_roles == 'y' %}assign_role(self.app_user, {{ role | default('app_user') }}) {% endif %}
+
 
     def test_post(self):
         {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
@@ -11,7 +13,7 @@ class Test{{ model_name }}CreateView(TestCase):
         {{ model_name | to_snake_case }}_dict.pop('id')
         {{ model_name | to_snake_case }}.delete()
 
-        with self.login(self.physician.user):
+        with self.login(self.app_user):
             response = self.post('{{ namespace }}:create-{{ model_name | to_dash_case }}', data={{ model_name | to_snake_case }}_dict)
             self.response_302(response)
 
@@ -21,34 +23,32 @@ class Test{{ model_name }}CreateView(TestCase):
         {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
         {{ model_name | to_snake_case }}.delete()
 
-        with self.login(self.physician.user):
-            response = self.get('finance:create-{{ model_name | to_dash_case }}')
+        with self.login(self.app_user):
+            response = self.get('{{ namespace }}:create-{{ model_name | to_dash_case }}')
             self.response_200(response)
 
-    def test_post_user_without_roles(self):
-        physician = PhysicianFactory.create()
-        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(clinic=physician.clinics.first())
+    {% if apply_roles == 'y' %}def test_post_user_without_roles(self):
+        user_with_no_role = SimpleUserFactory.create()
+        {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
         {{ model_name | to_snake_case }}_dict = model_to_json_dict({{ model_name | to_snake_case }})
         {{ model_name | to_snake_case }}_dict.pop('id')
         {{ model_name | to_snake_case }}.delete()
 
-        with self.login(physician.user):
+        with self.login(user_with_no_role):
             response = self.post('{{ namespace }}:create-{{ model_name | to_dash_case }}', data={{ model_name | to_snake_case }}_dict)
             self.response_403(response)
-        self.assertEqual({{ model_name }}.objects.count(), 0)
+        self.assertEqual({{ model_name }}.objects.count(), 0){% endif %}
 
 
 class Test{{ model_name }}UpdateView(TestCase):
 
     def setUp(self) -> None:
-        self.physician = PhysicianFactory.create()
-        self.clinic = self.physician.clinics.first()
-        assign_role(self.physician.user, 'physician')
+        self.app_user = SimpleUserFactory.create()
 
     def test_get(self):
         {{ model_name | to_snake_case }} = {{ model_name }}Factory.create(created_by=self.app_user)
 
-        with self.login(self.physician.user):
+        with self.login(self.app_user):
             response = self.post('{{ namespace }}:update-{{ model_name | to_dash_case }}', pk={{ model_name | to_snake_case }}.pk)
             self.response_200(response)
 
@@ -59,7 +59,7 @@ class Test{{ model_name }}UpdateView(TestCase):
         {{ model_name | to_snake_case }}_dict['attribute'] = att_value $FIXME
 
 
-        with self.login(self.physician.user):
+        with self.login(self.app_user):
             response = self.post('{{ namespace }}:update-{{ model_name | to_dash_case }}', pk={{ model_name | to_snake_case }}.pk, data={{ model_name | to_snake_case }}_dict)
             self.response_302(response)
 

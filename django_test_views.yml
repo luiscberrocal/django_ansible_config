@@ -10,6 +10,7 @@
         django_project_name: "{{ cc.default_context.project_name }}"
         pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
         templates_source: './templates/test_views.py.j2'
+        apply_roles: 'n'
     - name: Setup destination
       set_fact:
         templates_destination: './output/test_views.py'
