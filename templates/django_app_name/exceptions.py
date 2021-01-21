@@ -1,2 +1,2 @@
-class {{django_project_slug}}Exception(Exception):
+class {{django_app_name | to_camel_case}}Exception(Exception):
     pass
