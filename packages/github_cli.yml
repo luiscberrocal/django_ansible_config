@@ -1,6 +1,11 @@
 - name: Install github cli
   hosts: localhost
   tasks:
+    - name: User data
+      user:
+        name: luiscberrocal
+        state: present
+      register: current_user_data
     - name: Install Github CLI on Mac
       shell: brew install gh
       become: yes
@@ -31,10 +36,22 @@
       register: apt_update
       retries: 5
       until: apt_update is success
-    - name: Install github cli
+    - name: Install github cli, virtualenv
       become: yes
       apt:
-        package: gh
+        package: "{{ item }}"
+        #status: present
+      loop:
+        - gh
+        - python3-virtualenv
+      when: ansible_distribution == "Pop!_OS"
+
+    - name: Install Cookiecuter
+      pip:
+        name: cookiecutter
+        virtualenv: "{{current_user_data.home}}/PycharmProjects/django_ansible_config/venv"
+        #virtualenv_command: virtualenv-2.7
+
 
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
 #sudo apt-add-repository https://cli.github.com/packages

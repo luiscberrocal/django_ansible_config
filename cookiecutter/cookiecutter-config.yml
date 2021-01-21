@@ -2,7 +2,7 @@ default_context:
     full_name: "Luis C. Berrocal"
     email: "luis.berrocal.1942@gmail.com"
     github_username: "luiscberrocal"
-    project_name: "REC Demo"
+    project_name: "Rec Demo"
     project_slug: "rec_demo"
     domain_name: "herokuapp.com"
     version: "0.1.0"
