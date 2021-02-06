@@ -9,14 +9,22 @@
         django_project_slug: "{{ cc.default_context.project_slug }}"
         django_project_name: "{{ cc.default_context.project_name }}"
         pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
-        templates_source: './templates/model_templates/model_list.html.j2'
-    - name: Setup destination
-      set_fact:
-        templates_destination: './output/{{ model_name | to_snake_case }}_list.html'
     - name: Create templates {{ model_name | to_snake_case }}_list.html
       template:
-        src: '{{ templates_source }}'
+        src: './templates/model_templates/model_list.html.j2'
         dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_list.html"
+    - name: Create templates {{ model_name | to_snake_case }}_detail.html
+      template:
+        src: './templates/model_templates/model_detail.html.j2'
+        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_detail.html"
+    - name: Create templates {{ model_name | to_snake_case }}_confirm_delete.html
+      template:
+        src: './templates/model_templates/model_confirm_delete.html.j2'
+        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_confirm_delete.html"
+    - name: Create templates {{ model_name | to_snake_case }}_form.html
+      template:
+        src: './templates/model_templates/model_form.html.j2'
+        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_form.html"
 
 
 
