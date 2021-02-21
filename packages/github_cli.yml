@@ -12,28 +12,12 @@
       become_user: "{{username}}"
       when: ansible_distribution == "MacOsx"
 
-#    - name: Install prerequisites (python3-apt)
-#      become: yes
-#      apt:
-#        name: ["python3-apt"]
-#        state: present
-#        update_cache: yes
-#      when: ansible_distribution == "Pop!_OS"
-
-#    - name: Install prerequisites (software-properties-common)
-#      become: yes
-#      apt:
-#        name: ["software-properties-common"]
-#        state: present
-#      when: ansible_distribution == "Pop!_OS"
-
     - name: Add Ubuntu key on Pop!_OS
       apt_key:
         keyserver: keyserver.ubuntu.com
         id: C99B11DEB97541F0
         state: present
       become: yes
-      #become_user: luiscberrocal
       when: ansible_distribution == "Pop!_OS"
 
     - name: Add github repository into sources list

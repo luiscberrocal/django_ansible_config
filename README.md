@@ -1,4 +1,4 @@
-# django_ansible_config
+# Django  project configuration using Ansible
 
 Configuration of Django project using Ansible and Cookie cutter
 
@@ -7,6 +7,9 @@ To tun the playbook you need to have installed:
     1. Heroku CLI
     2. AWS CLI
     3. Github CLI
+       To install:
+        >  ansible-playbook ./packages/github_cli.yml -K
+
 
 You need to be logged in each service for the playbook to run.
 

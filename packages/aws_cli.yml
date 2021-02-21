@@ -1,0 +1,17 @@
+- name: Install AWS cli
+  hosts: localhost
+  vars:
+    username: "{{ ansible_facts.env.USER }}"
+  tasks:
+    - name: Print all available facts
+      debug:
+        msg: "OS: {{ ansible_distribution }}, {{ ansible_distribution_release }} user {{ username }}"
+
+    - name: Install aws cli
+      become: yes
+      apt:
+        name: ["awscli"]
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Pop!_OS"
+
