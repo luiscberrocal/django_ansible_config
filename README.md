@@ -1,5 +1,16 @@
 # django_ansible_config
-Configuraton of Django project using Ansible and Cookie cutter
+
+Configuration of Django project using Ansible and Cookie cutter
+
+To tun the playbook you need to have installed:
+
+    1. Heroku CLI
+    2. AWS CLI
+    3. Github CLI
+
+You need to be logged in each service for the playbook to run.
+
+
 
 ## Cookiecutter
 
@@ -20,15 +31,18 @@ Create a repo with the same name as your cookiecutter slug **rec_promoter_app** 
 
 ## How to use
 
-Edit cookiecutter/cookiecutter-config.yml especifically the **project_name** and
+Edit cookiecutter/cookiecutter-config.yml specifically the **project_name** and
 **project_slug**.
 
-Steps before running:
+The creation of the admin user for Django is based con the file ./.secrets/credentials.yml with the data in this file
+Ansible will create a superuser for you.
+
+Steps before running the main playbook. 
 
     1. Run:
         $ ansible-playbook prep_secrets.yml --extra-vars '{"pwd":"12333"}'
 
-    2. Edot  the file named .secrets/credential.yml with the following below. This content will ber used to create your super user in Django:
+    2. Edit  the file named .secrets/credential.yml with the following below. This content will ber used to create your super user in Django:
 
         dev:
             username: your-username
@@ -42,6 +56,8 @@ Steps before running:
 Run:
 
     $ ansible-playbook playbook.yml
+
+
 
 
     
