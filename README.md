@@ -6,6 +6,8 @@ To tun the playbook you need to have installed:
 
     1. Heroku CLI
     2. AWS CLI
+       To install:
+        >  ansible-playbook ./packages/aws_cli.yml -K
     3. Github CLI
        To install:
         >  ansible-playbook ./packages/github_cli.yml -K

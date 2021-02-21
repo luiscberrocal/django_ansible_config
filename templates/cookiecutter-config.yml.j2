@@ -1,9 +1,9 @@
 default_context:
-    full_name: "Luis Carlos Berrocal C."
-    email: "luis.berrocal.1942@gmail.com"
-    github_username: "luiscberrocal"
-    project_name: "Demo project"
-    project_slug: "emr_clinic"
+    full_name: "{{ full_name }}"
+    email: "{{ email }}"
+    github_username: "{{ github_username }}"
+    project_name: "{{ project_name }}"
+    project_slug: "{{ project_slug }}"
     domain_name: "herokuapp.com"
     version: "0.1.0"
     open_source_license: "Not open source"
@@ -30,4 +30,4 @@ default_context:
     allow_suscription: "n"
 #extra_context:
 #
-cookiecutters_dir: "/home/luiscberrocal/PycharmProjects/django_ansible_config/cookiecutter"
+cookiecutters_dir: "{{ pycharm_project_folder }}/django_ansible_config/cookiecutter"

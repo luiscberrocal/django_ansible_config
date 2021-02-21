@@ -1,0 +1,21 @@
+- name: Configuring Cookiecutter
+  hosts: localhost
+  vars:
+    full_name: "Luis Carlos Berrocal C."
+    email: "luis.berrocal.1942@gmail.com"
+    github_username: "luiscberrocal"
+    project_name: "Demo project"
+    project_slug: ""
+    pycharm_project_folder: "{{ansible_facts.env.HOME}}/PycharmProjects"
+  tasks:
+    - name: Print some available facts
+      debug:
+        msg: "OS: {{ ansible_distribution }}, {{ ansible_distribution_release }}"
+    - name: Print env
+      debug:
+        msg: "Environment: {{ ansible_facts.env.PWD }}"
+    - name: Updating cookiecutter configuration
+      template:
+        src: "../templates/cookiecutter-config.yml.j2"
+        dest: "../cookiecutter/cookiecutter-config.yml"
+
