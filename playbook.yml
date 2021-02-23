@@ -33,14 +33,19 @@
         cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
     - name: Create django project
       include_tasks: ./tasks/django_project.yml
+      when: 1 == 3
     - name: Configure django super user
       include_tasks: ./tasks/django_user_config.yml
+      when: 1 == 3
     - name: Add python scripts
       include_tasks: ./tasks/python_scripts.yml
+      when: 1 == 3
     - name: Git setup
       include_tasks: ./tasks/git_setup.yml
+      when: 1 == 3
     - name: AWS Configuration
       include_tasks: ./tasks/aws_config.yml
+      when: 1 == 3
     - name: Heroku Configuration
       include_tasks: ./tasks/heroku_config.yml
       when: 1 == 1
