@@ -5,22 +5,26 @@
         file: "./cookiecutter/cookiecutter-config.yml"
         name: cc
     - set_fact:
-        django_project_slug: "{{ cc.default_context.project_slug }}"
-        django_project_name: "{{ cc.default_context.project_name }}"
-        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+        #django_project_slug: "{{ cc.default_context.project_slug }}"
+        #django_project_name: "{{ cc.default_context.project_name }}"
+        pycharm_project_folder: "{{ ansible_facts.env.HOME }}/PycharmProjects"
     - debug:
         msg: "{{ django_project_slug }}"
-    - name: Delete directory
+    - name: Delete directory {{pycharm_project_folder}}/{{django_project_slug}}
+      become: yes
       file:
         path: "{{pycharm_project_folder}}/{{django_project_slug}}"
         state: absent
     - name: Stop all containers
       shell: docker stop $(docker ps -qa)
 # docker ps -a | awk '{ print $1,$2 }' | grep rec_promoter_app | awk '{print $1 }' | xargs -I {} docker rm {}
-    - name: Get postgres container line
+    - name: Get postgres container line {{django_project_slug}}_production
       shell: "docker ps -a | grep {{django_project_slug}}_production"
       register: results
       failed_when: results.rc >= 2
+    - name: DISPLAY RESULTS
+      debug:
+        msg: "Results: {{results}}"
 
     - name: Get post container id
       set_fact:
@@ -28,7 +32,7 @@
       vars:
         regexp: '([a-z0-9]{12})\s+'
       when: results.stdout | length > 0
-    - name: Delete postgres image
+    - name: Delete postgres image {{postgres_container}}
       shell: "docker rm {{postgres_container}}"
       when: results.stdout | length > 0
     - name: Delete volume

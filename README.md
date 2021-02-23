@@ -18,6 +18,9 @@ You need to be logged in each service for the playbook to run.
 
 
 ## Cookiecutter
+Run:
+
+    > ansible-playbook ./packages/cookiecutter_config.yml --extra-vars '{"project_slug": "emr_clinic"}'
 
 Requires Python 3.x and cookiecutter (https://github.com/pydanny/cookiecutter-django) installed.
 

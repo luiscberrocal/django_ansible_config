@@ -45,11 +45,7 @@
         state: present
       when: ansible_distribution == "Pop!_OS"
 
-#    - name: Install Cookiecuter
-#      pip:
-#        name: cookiecutter
-#        virtualenv: "{{current_user_data.home}}/PycharmProjects/django_ansible_config/venv"
-#        #virtualenv_command: virtualenv-2.7
+
 
 #sudo apt install software-properties-common and trying these steps again.
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
