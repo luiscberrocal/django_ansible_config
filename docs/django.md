@@ -1,8 +1,14 @@
 # Django Tools
 
-## Create django project
+## Clone project
+    git clone XXX
 
-    ansible-playbook playbook.yml --extra-vars '{"django_project_slug": "rec_prom"}'
+## Create credentials file
+
+    ansible-playbook prep_secrets.yml --extra-vars "{'pwd': '_Wolverine0912'}"
+
+
+## Creating secrets
 
 ## To create a django app
     $  ansible-playbook django_app.yml --extra-vars '{"django_app_name": "real_estate"}'

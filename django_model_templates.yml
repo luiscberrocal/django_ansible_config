@@ -1,30 +1,27 @@
-- name: Create a Django app
+- name: Create a Model templatess
   hosts: localhost
+  vars:
+    pycharm_project_folder: "{{ansible_facts.env.HOME}}/PycharmProjects"
   tasks:
-    - include_vars:
-        file: "./cookiecutter/cookiecutter-config.yml"
-        name: cc
     - name: Basic variable setup
       set_fact:
-        django_project_slug: "{{ cc.default_context.project_slug }}"
-        django_project_name: "{{ cc.default_context.project_name }}"
-        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+        pycharm_template_folder: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates"
     - name: Create templates {{ model_name | to_snake_case }}_list.html
       template:
         src: './templates/model_templates/model_list.html.j2'
-        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_list.html"
+        dest: "{{pycharm_template_folder}}/{{ django_app_name }}/{{ model_name | to_snake_case }}_list.html"
     - name: Create templates {{ model_name | to_snake_case }}_detail.html
       template:
         src: './templates/model_templates/model_detail.html.j2'
-        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_detail.html"
+        dest: "{{pycharm_template_folder}}/{{ django_app_name }}/{{ model_name | to_snake_case }}_detail.html"
     - name: Create templates {{ model_name | to_snake_case }}_confirm_delete.html
       template:
         src: './templates/model_templates/model_confirm_delete.html.j2'
-        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_confirm_delete.html"
+        dest: "{{pycharm_template_folder}}/{{ django_app_name }}/{{ model_name | to_snake_case }}_confirm_delete.html"
     - name: Create templates {{ model_name | to_snake_case }}_form.html
       template:
         src: './templates/model_templates/model_form.html.j2'
-        dest: "{{ pycharm_project_folder }}/{{django_project_slug}}/{{django_project_slug}}/templates/{{ django_app_name }}/{{ model_name | to_snake_case }}_form.html"
+        dest: "{{pycharm_template_folder}}/{{ django_app_name }}/{{ model_name | to_snake_case }}_form.html"
 
 
 

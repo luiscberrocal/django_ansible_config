@@ -11,7 +11,7 @@
 
     <form class="form-horizontal" method="post" action="">
         {% csrf_token %}
-       {{ form | crispy_form }}
+       {{ form | crispy }}
         <div class="control-group">
             <div class="controls">
                 <a href="{% url {% endraw %}'{{ namespace }}:list-{{ model_name | to_snake_case }}' {% raw %}%}" class="btn btn-primary">{% trans 'Cancel' %}</a>
