@@ -1,0 +1,2 @@
+ansible==3.1.0
+cookiecutter==1.7.2
