@@ -133,3 +133,5 @@ cookiecutter/cookiecutter-django/
 .secrets/
 
 output/
+
+tj_great/

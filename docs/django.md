@@ -1,5 +1,9 @@
 # Django Tools
 
+## Create django project
+
+    ansible-playbook playbook.yml --extra-vars '{"django_project_slug": "rec_prom"}'
+
 ## To create a django app
     $  ansible-playbook django_app.yml --extra-vars '{"django_app_name": "real_estate"}'
     
