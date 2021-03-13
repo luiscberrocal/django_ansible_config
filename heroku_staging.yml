@@ -9,8 +9,8 @@
         name: credentials
     - name: Setting facts
       set_fact:
-        django_project_slug: "{{ cc.default_context.project_slug }}"
-        django_project_name: "{{ cc.default_context.project_name }}"
+        django_project_slug: ""
+        django_project_name: ""
         pycharm_project_folder: "/Users/luiscberrocal/PycharmProjects"
     - name: Setting folders
       set_fact:

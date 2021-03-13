@@ -23,9 +23,9 @@
   args:
     chdir: "{{ django_project_folder }}"
 
-- name: Load user access keys
+- name: Load user access keys ./output/{{ aws_staging_user }}-access.json
   include_vars:
-    file: "./output/{{ aws_staging_user }}-access.yml"
+    file: "./output/{{ aws_staging_user }}-access.json"
     name: access_keys
 
 - debug:

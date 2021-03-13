@@ -3,7 +3,7 @@
   args:
     chdir: "{{ django_project_folder }}"
 
-- name: Build containeres
+- name: Build containers from {{ django_project_folder }}/local.yml
   shell: docker-compose -f local.yml build
   args:
     chdir: "{{ django_project_folder }}"

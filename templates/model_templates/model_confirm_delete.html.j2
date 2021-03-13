@@ -1,0 +1,22 @@
+{% raw %}{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+    <h1 data-cy="delete-title">{% trans 'Confirm delete' %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            {% blocktrans with id=object.id %}
+                Are you sure you want to delete {% endraw %} {{ model_name }} {% raw %} "{{ id }}"?{% endblocktrans %}</p>
+
+        <div class="control-group">
+            <div class="controls">
+                <a href="{% url {% endraw %}'{{ namespace }}:list-{{ model_name | to_snake_case }}' {% raw %} %}" class="btn btn-primary">{% trans 'Cancel' %}</a>
+                <input type="submit" value="{% trans 'Confirm' %}" class="btn btn-danger" id="delete-btn" data-cy="submit">
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}{% endraw %}

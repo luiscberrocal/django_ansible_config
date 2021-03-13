@@ -1,0 +1,33 @@
+{% raw %}{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+    {% if form.instance.id %}
+        <h2>{% trans {% endraw %}'{{ model_name }}'{% raw %} %}</h2>
+    {% else %}
+        <h2>{% trans {% endraw %}'New {{ model_name }}' {% raw %} %}</h2>
+    {% endif %}
+
+    <form class="form-horizontal" method="post" action="">
+        {% csrf_token %}
+       {{ form | crispy_form }}
+        <div class="control-group">
+            <div class="controls">
+                <a href="{% url {% endraw %}'{{ namespace }}:list-{{ model_name | to_snake_case }}' {% raw %}%}" class="btn btn-primary">{% trans 'Cancel' %}</a>
+                <button type="submit" class="btn btn-primary" id="save_button">{% trans 'Save' %}</button>
+
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+
+{% endblock %}{% endraw %}
