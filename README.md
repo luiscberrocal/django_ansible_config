@@ -63,7 +63,8 @@ Steps before running the main playbook.
 
 Run:
 
-    $ ansible-playbook playbook.yml
+    $ ansible-playbook playbook.yml --extra-vars '{"django_project_slug": "rec_prom"}'
+
 
 
 
