@@ -17,17 +17,20 @@ def run_commands(commands, encoding='utf-8'):
 
 
 def main(**kwargs):
-    print(f'kw: {kwargs}')
+    #print(f'kw: {kwargs}')
     extra_vars = {"django_project_slug": kwargs['project_slug'],
                   'do_local_tasks': 'yes' if kwargs['local'] else 'no',
                   'do_cloud_tasks': 'yes' if kwargs['cloud'] else 'no',
                   }  # , "do_local_tasks": "no"}'
+    if kwargs['skip'] is not None:
+        for skip_task in kwargs['skip']:
+            extra_vars[f'skip_{skip_task}'] = 'yes'
 
     command = ['ansible-playbook', 'playbook.yml', '--extra-vars', str(extra_vars)]
     res, error = run_commands(command)
     for line in res:
         print(line)
-    print('<>'*40)
+    print('<>' * 40)
     for line in error:
         print(line)
 
@@ -45,7 +48,10 @@ if __name__ == '__main__':
     ap.add_argument("-c", "--cloud", required=False,
                     action="store_true",
                     help="Run cloud tasks")
+    ap.add_argument('-s', '--skip', metavar='skip_list', type=str, nargs='+',
+                    choices=['cookiecutter', 'git_setup', 'aws'],
+                    help='Tasks to skip')
     args = vars(ap.parse_args())
-    #print(type(args))
-    #print(args)
-    main(**args)
+    # print(type(args))
+    print(args)
+    #main(**args)

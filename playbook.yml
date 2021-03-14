@@ -40,9 +40,9 @@
     - name: Git local setup (git_setup)
       include_tasks: ./tasks/0400_git_setup.yml
       when: do_local_tasks == True and not skip_git_setup is defined
-    - name: AWS Configuration
+    - name: AWS Configuration (aws)
       include_tasks: ./tasks/1100_aws_config.yml
-      when: 1 == 3
+      when: do_cloud_tasks == True and not skip_aws is defined
     - name: Heroku Configuration
       include_tasks: ./tasks/1200_heroku_config.yml
       when: 1 == 3
