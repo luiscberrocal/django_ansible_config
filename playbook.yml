@@ -34,11 +34,11 @@
     - name: Configure django configuration (django_config)
       include_tasks: ./tasks/0200_django_user_config.yml
       when: do_local_tasks == True and not skip_django_config is defined
-    - name: Add python scripts
-      include_tasks: ./tasks/0300_python_scripts.yml (scripts)
+    - name: Add python scripts (scripts)
+      include_tasks: ./tasks/0300_python_scripts.yml
       when: do_local_tasks == True and not skip_scripts is defined
-    - name: Git local setup
-      include_tasks: ./tasks/0400_git_setup.yml (git_setup)
+    - name: Git local setup (git_setup)
+      include_tasks: ./tasks/0400_git_setup.yml
       when: do_local_tasks == True and not skip_git_setup is defined
     - name: AWS Configuration
       include_tasks: ./tasks/1100_aws_config.yml
