@@ -1,9 +1,6 @@
 - name: Reset local environment
   hosts: localhost
   tasks:
-    - include_vars:
-        file: "./cookiecutter/cookiecutter-config.yml"
-        name: cc
     - set_fact:
         #django_project_slug: "{{ cc.default_context.project_slug }}"
         #django_project_name: "{{ cc.default_context.project_name }}"
@@ -11,7 +8,7 @@
     - debug:
         msg: "{{ django_project_slug }}"
     - name: Delete directory {{pycharm_project_folder}}/{{django_project_slug}}
-      become: yes
+#      become: yes
       file:
         path: "{{pycharm_project_folder}}/{{django_project_slug}}"
         state: absent
