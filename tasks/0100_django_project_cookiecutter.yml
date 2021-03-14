@@ -1,4 +1,4 @@
-- name: Run cookiecutter for  {{django_project_slug}}
+- name: Run cookiecutter for {{django_project_slug}}
   cookiecutter:
     django_project_slug: '{{django_project_slug}}'
     config_file: '{{ cookiecutter_config }}'
