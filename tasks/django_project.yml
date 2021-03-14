@@ -1,4 +1,5 @@
-- name: Run cookie cutter
-  shell: "cookiecutter --no-input https://github.com/luiscberrocal/cookiecutter-django --checkout develop --config-file {{ cookiecutter_config }} --extra-context={'project_slug': {{django_project_slug}}}"
-  args:
-    chdir: "{{ pycharm_project_folder }}"
+- name: Run cookiecutter for  {{django_project_slug}}
+  cookiecutter:
+    django_project_slug: '{{django_project_slug}}'
+    config_file: '{{ cookiecutter_config }}'
+    target_folder: "{{ pycharm_project_folder }}"
