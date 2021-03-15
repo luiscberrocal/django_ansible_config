@@ -43,15 +43,15 @@
     - name: AWS Configuration (aws)
       include_tasks: ./tasks/1100_aws_config.yml
       when: do_cloud_tasks == True and not skip_aws is defined
-    - name: Heroku Configuration
+    - name: Heroku Configuration (heroku)
       include_tasks: ./tasks/1200_heroku_config.yml
-      when: 1 == 3
+      when:  do_cloud_tasks == True and not skip_heroku is defined
 #    - name: Heroku Superuser for stating
 #      include_tasks: ./tasks/heroku_superuser.yml
 #      when: 1 == 1
-    - name: Crete github repo
+    - name: Crete github repo (github)
       include_tasks: ./tasks/1300_github_repo.yml
-      when: 1 == 3
+      when:  do_cloud_tasks == True and not skip_github is defined
 
 
 

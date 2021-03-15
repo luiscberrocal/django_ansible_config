@@ -49,7 +49,7 @@ if __name__ == '__main__':
                     action="store_true",
                     help="Run cloud tasks")
     ap.add_argument('-s', '--skip', metavar='skip_list', type=str, nargs='+',
-                    choices=['cookiecutter', 'git_setup', 'aws'],
+                    choices=['cookiecutter', 'git_setup', 'aws', 'heroku', 'github'],
                     help='Tasks to skip')
     args = vars(ap.parse_args())
     # print(type(args))
