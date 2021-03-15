@@ -7,6 +7,9 @@
 
     ansible-playbook prep_secrets.yml --extra-vars "{'pwd': '_Wolverine0912'}"
 
+## Start app
+    ansible-playbook playbook.yml --extra-vars '{"django_project_slut": "rec_prom1"}'
+    
 
 ## Creating secrets
 

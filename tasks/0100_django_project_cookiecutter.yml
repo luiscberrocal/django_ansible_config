@@ -1,0 +1,5 @@
+- name: Run cookiecutter for {{django_project_slug}}
+  cookiecutter:
+    django_project_slug: '{{django_project_slug}}'
+    config_file: '{{ cookiecutter_config }}'
+    target_folder: "{{ pycharm_project_folder }}"

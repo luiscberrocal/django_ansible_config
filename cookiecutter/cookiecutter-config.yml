@@ -30,4 +30,4 @@ default_context:
     allow_suscription: "n"
 #extra_context:
 #
-cookiecutters_dir: "/home/luiscberrocal/PycharmProjects/django_ansible_config/cookiecutter"
+cookiecutters_dir: "/Users/luiscberrocal/PycharmProjects/django_ansible_config/cookiecutter"

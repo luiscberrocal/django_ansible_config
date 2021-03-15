@@ -14,6 +14,8 @@
         pycharm_project_folder: "{{current_user_data.home}}/PycharmProjects"
     - name: Setting folders
       set_fact:
+        do_local_tasks: 'yes'
+        do_cloud_tasks: 'no'
         ansible_project_folder: "{{ pycharm_project_folder }}/django_ansible_config"
         django_project_folder: "{{ pycharm_project_folder }}/{{ django_project_slug }}"
         github_repo: "https://github.com/luiscberrocal/{{django_project_slug}}.git"
@@ -26,30 +28,30 @@
     - name: Setting up cookiecutter for {{django_project_slug}}
       set_fact:
         cookiecutter_config: "{{ ansible_project_folder }}/cookiecutter/cookiecutter-config.yml"
-    - name: Create django project
-      include_tasks: ./tasks/django_project.yml
-      when: 1 == 1
-    - name: Configure django super user
-      include_tasks: ./tasks/django_user_config.yml
-      when: 1 == 1
-    - name: Add python scripts
-      include_tasks: ./tasks/python_scripts.yml
-      when: 1 == 1
-    - name: Git local setup
-      include_tasks: ./tasks/git_setup.yml
-      when: 1 == 1
-    - name: AWS Configuration
-      include_tasks: ./tasks/aws_config.yml
-      when: 1 == 3
-    - name: Heroku Configuration
-      include_tasks: ./tasks/heroku_config.yml
-      when: 1 == 3
+    - name: Create django project with Cookiecutter (cookiecutter)
+      include_tasks: ./tasks/0100_django_project_cookiecutter.yml
+      when: do_local_tasks == True and not skip_cookiecutter is defined
+    - name: Configure django configuration (django_config)
+      include_tasks: ./tasks/0200_django_user_config.yml
+      when: do_local_tasks == True and not skip_django_config is defined
+    - name: Add python scripts (scripts)
+      include_tasks: ./tasks/0300_python_scripts.yml
+      when: do_local_tasks == True and not skip_scripts is defined
+    - name: Git local setup (git_setup)
+      include_tasks: ./tasks/0400_git_setup.yml
+      when: do_local_tasks == True and not skip_git_setup is defined
+    - name: AWS Configuration (aws)
+      include_tasks: ./tasks/1100_aws_config.yml
+      when: do_cloud_tasks == True and not skip_aws is defined
+    - name: Heroku Configuration (heroku)
+      include_tasks: ./tasks/1200_heroku_config.yml
+      when:  do_cloud_tasks == True and not skip_heroku is defined
 #    - name: Heroku Superuser for stating
 #      include_tasks: ./tasks/heroku_superuser.yml
 #      when: 1 == 1
-    - name: Crete github repo
-      include_tasks: ./tasks/github_repo.yml
-      when: 1 == 3
+    - name: Crete github repo (github)
+      include_tasks: ./tasks/1300_github_repo.yml
+      when:  do_cloud_tasks == True and not skip_github is defined
 
 
 
