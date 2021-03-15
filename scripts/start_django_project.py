@@ -19,14 +19,14 @@ def run_commands(commands, encoding='utf-8'):
 def main(**kwargs):
     #print(f'kw: {kwargs}')
     extra_vars = {"django_project_slug": kwargs['project_slug'],
-                  'do_local_tasks': 'yes' if kwargs['local'] else 'no',
-                  'do_cloud_tasks': 'yes' if kwargs['cloud'] else 'no',
+                  'do_local_tasks': kwargs['local'],
+                  'do_cloud_tasks': kwargs['cloud'],
                   }  # , "do_local_tasks": "no"}'
     if kwargs['skip'] is not None:
         for skip_task in kwargs['skip']:
-            extra_vars[f'skip_{skip_task}'] = 'yes'
-
-    command = ['ansible-playbook', 'playbook.yml', '--extra-vars', str(extra_vars)]
+            extra_vars[f'skip_{skip_task}'] = True
+    print(f'extra_vars: "{extra_vars}"')
+    command = ['ansible-playbook', 'playbook.yml', '--extra-vars', f'{extra_vars}']
     res, error = run_commands(command)
     for line in res:
         print(line)
@@ -54,4 +54,4 @@ if __name__ == '__main__':
     args = vars(ap.parse_args())
     # print(type(args))
     print(args)
-    #main(**args)
+    main(**args)
