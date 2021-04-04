@@ -36,6 +36,13 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
+    """
+    To run all local and cloud tasks
+        $ python ./scripts/start_django_project.py -p rec_promoter_app -l -c 
+        
+    To run all local and cloud tasks except github tasks
+        $ python ./scripts/start_django_project.py -p rec_promoter_app -l -c -s github
+    """
     import argparse
 
     # construct the argument parse and parse the arguments

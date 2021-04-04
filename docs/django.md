@@ -14,7 +14,7 @@
 ## Creating secrets
 
 ## To create a django app
-    $  ansible-playbook django_app.yml --extra-vars '{"django_app_name": "real_estate"}'
+    $  ansible-playbook django_app.yml --extra-vars '{"django_app_name": "demo", "django_project_slug": "alpha_clinic"}'
     
     # ansible-playbook django_app.yml --extra-vars '{"django_app_name": "real_estate"}'
 

@@ -3,7 +3,7 @@
   tasks:
     - name: Basic variable setup
       set_fact:
-        pycharm_project_folder: /Users/luiscberrocal/PycharmProjects
+        pycharm_project_folder: "{{ansible_facts.env.HOME}}/PycharmProjects"
         templates_source: './templates/django_app_name'
     - name: Setup destination
       set_fact:
