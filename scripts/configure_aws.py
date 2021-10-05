@@ -16,6 +16,13 @@ def run_commands(commands, encoding='utf-8'):
     return result_lines, error_lines
 
 
+def get_bucket(bucket_name):
+    command = f'aws s3 ls' # | grep "{bucket_name}"'
+    commands = command.split(' ')
+    results, errors = run_commands(commands)
+    display_results(results, errors)
+
+
 def create_bucket(**kwargs):
     project_slug = kwargs['project_slug']
     environment = kwargs.get('environment', 'staging')
@@ -26,14 +33,19 @@ def create_bucket(**kwargs):
     if dry_run:
         print(command)
     commands = command.split(' ')
-    r, e = run_commands(commands)
-    print(r)
-    print('-'*80)
-    print(e)
+    results, errors = run_commands(commands)
+    display_results(results, errors)
+
+
+def display_results(results, errors):
+    print('-' * 80)
+    print(results)
+    print('-' * 80)
+    print(errors)
 
 
 if __name__ == '__main__':
     slug = 'home_automation'
-    create_bucket(project_slug=slug, dry_run=True)
-
-
+    # create_bucket(project_slug=slug, dry_run=True)
+    bucket_pattern = slug.replace('_', '-')
+    get_bucket(bucket_pattern)
