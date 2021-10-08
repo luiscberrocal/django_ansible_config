@@ -95,6 +95,19 @@ def create_policy_file(filename, bucket_name, **kwargs):
         json_file.write(content)
     return content
 
+def create_policy(bucket_name, filename, **kwargs):
+    """
+   "aws iam create-policy --policy-name {{ aws_staging_bucket }}-policy --policy-document file://./output/{{ aws_staging_bucket }}_policy.json"
+    :return: 
+    """
+    verbose = kwargs.get('verbose', False)
+    commands = f"aws iam create-policy --policy-name {bucket_name}-policy" \
+              f" --policy-document file://{filename}".split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
+
+
 
 if __name__ == '__main__':
     slug = 'home_automation'
@@ -105,4 +118,7 @@ if __name__ == '__main__':
     bucket_name = f"{slug.replace('_', '-')}-staging-bucket"
     filename = f'../output/{bucket_name}-s3-policy.json'
     create_policy_file(filename, bucket_name)
+    create_policy(bucket_name, filename, verbose=True)
+
+
 
