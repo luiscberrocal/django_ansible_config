@@ -1,5 +1,7 @@
 import subprocess
 
+from jinja2 import Environment, PackageLoader, select_autoescape
+
 
 def run_piped_commands(command, encoding='utf-8'):
     command_parts = command.split('|')
@@ -78,9 +80,29 @@ def create_aws_group(project_slug, environment='staging', **kwargs):
     return group
 
 
+def create_policy_file(filename, bucket_name, **kwargs):
+    verbose = kwargs.get('verbose', False)
+    env = Environment(
+        loader=PackageLoader("scripts"),
+        autoescape=select_autoescape()
+    )
+
+    template = env.get_template("s3_policy.json.j2")
+    content = template.render(aws_staging_bucket=bucket_name)
+    if verbose:
+        print(content)
+    with open(filename, 'w') as json_file:
+        json_file.write(content)
+    return content
+
+
 if __name__ == '__main__':
     slug = 'home_automation'
     # create_bucket(project_slug=slug, dry_run=True)
     bucket_pattern = slug.replace('_', '-')
     get_buckets(bucket_pattern)
-    group_name = create_aws_group(slug, verbose=True)
+    # group_name = create_aws_group(slug, verbose=True)
+    bucket_name = f"{slug.replace('_', '-')}-staging-bucket"
+    filename = f'../output/{bucket_name}-s3-policy.json'
+    create_policy_file(filename, bucket_name)
+
