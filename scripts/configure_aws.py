@@ -6,7 +6,7 @@ def run_piped_commands(command, encoding='utf-8'):
     subprocesses = list()
     for i, c in enumerate(command_parts):
         if len(subprocesses) > 0:
-            stdin = subprocess[i-1]
+            stdin = subprocess[i - 1]
         else:
             stdin = subprocess.PIPE
         commands = c.split(' ')
@@ -56,21 +56,31 @@ def create_bucket(**kwargs):
         commands = command.split(' ')
         results, errors = run_commands(commands)
         display_results(results, errors)
+    return bucket_name
 
 
 def display_results(results, errors):
     print('-' * 80)
     for i, result in enumerate(results):
-        print(f'{i+1} {result}')
+        print(f'{i + 1} {result}')
     print('-' * 80)
     print(errors)
 
 
-def create_aws_group(group_name):
+def create_aws_group(project_slug, environment='staging', **kwargs):
     """aws iam create-group --group-name {{ aws_staging_group }}"""
+    verbose = kwargs.get('verbose', False)
+    group = f"{project_slug.replace('_', '-')}-{environment}-group"
+    commands = f'aws iam create-group --group-name {group}'.split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
+    return group
+
 
 if __name__ == '__main__':
     slug = 'home_automation'
     # create_bucket(project_slug=slug, dry_run=True)
     bucket_pattern = slug.replace('_', '-')
     get_buckets(bucket_pattern)
+    group_name = create_aws_group(slug, verbose=True)
