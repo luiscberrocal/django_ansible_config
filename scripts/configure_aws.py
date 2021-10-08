@@ -95,6 +95,7 @@ def create_policy_file(filename, bucket_name, **kwargs):
         json_file.write(content)
     return content
 
+
 def create_policy(bucket_name, filename, **kwargs):
     """
    "aws iam create-policy --policy-name {{ aws_staging_bucket }}-policy --policy-document file://./output/{{ aws_staging_bucket }}_policy.json"
@@ -102,23 +103,62 @@ def create_policy(bucket_name, filename, **kwargs):
     """
     verbose = kwargs.get('verbose', False)
     commands = f"aws iam create-policy --policy-name {bucket_name}-policy" \
-              f" --policy-document file://{filename}".split(' ')
+               f" --policy-document file://{filename}".split(' ')
     results, errors = run_commands(commands)
     if verbose:
         display_results(results, errors)
 
+
+def get_policy_arn(bucket_name, **kwargs):
+    """
+    aws iam list-policies --query
+    'Policies[?PolicyName==`{{ aws_staging_bucket }}-policy`].{ARN:Arn}' --output text
+    """
+    verbose = kwargs.get('verbose', False)
+    commands = f"aws iam list-policies --query " \
+               f"'Policies[?PolicyName==`{bucket_name}-policy`].{{ARN:Arn}}' " \
+               f"--output text".split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
+
+
+def create_policy_arn_script(filename, bucket_name, aws_group, **kwargs):
+    verbose = kwargs.get('verbose', False)
+    env = Environment(
+        loader=PackageLoader("scripts"),
+        autoescape=select_autoescape()
+    )
+
+    template = env.get_template("grant_s3.sh.j2")
+    content = template.render(bucket_name=bucket_name, aws_group=aws_group)
+    if verbose:
+        print(content)
+    with open(filename, 'w') as json_file:
+        json_file.write(content)
+    return content
+
+def execute_arn_script(filename, **kwargs):
+    verbose = kwargs.get('verbose', False)
+    commands = f'sh {filename}'.split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
 
 
 if __name__ == '__main__':
     slug = 'home_automation'
     # create_bucket(project_slug=slug, dry_run=True)
     bucket_pattern = slug.replace('_', '-')
-    get_buckets(bucket_pattern)
+    # get_buckets(bucket_pattern)
     # group_name = create_aws_group(slug, verbose=True)
     bucket_name = f"{slug.replace('_', '-')}-staging-bucket"
     filename = f'../output/{bucket_name}-s3-policy.json'
-    create_policy_file(filename, bucket_name)
-    create_policy(bucket_name, filename, verbose=True)
+    # create_policy_file(filename, bucket_name)
+    # create_policy(bucket_name, filename, verbose=True)
+    aws_group = 'home-automation-staging-group'
 
+    script_filename = f'../output/{bucket_name}-arn.sh'
+    #create_policy_arn_script(script_filename, bucket_name, aws_group)
 
-
+    execute_arn_script(script_filename, verbose=True)
