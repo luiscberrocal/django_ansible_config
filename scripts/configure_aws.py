@@ -1,6 +1,25 @@
 import subprocess
 
 
+def run_piped_commands(command, encoding='utf-8'):
+    command_parts = command.split('|')
+    subprocesses = list()
+    for i, c in enumerate(command_parts):
+        if len(subprocesses) > 0:
+            stdin = subprocess[i-1]
+        else:
+            stdin = subprocess.PIPE
+        commands = c.split(' ')
+        result = subprocess.run(commands,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=stdin)
+        subprocesses.append(result)
+    result_lines = subprocesses[:-1].stdout.decode(encoding).split('\n')[:-1]
+    error_lines = subprocesses[:-1].stderr.decode(encoding).split('\n')[:-1]
+    return result_lines, error_lines
+
+
 def run_commands(commands, encoding='utf-8'):
     """
     :param commands: <list> The command and paraemters to run
@@ -16,10 +35,12 @@ def run_commands(commands, encoding='utf-8'):
     return result_lines, error_lines
 
 
-def get_bucket(bucket_name):
-    command = f'aws s3 ls' # | grep "{bucket_name}"'
+def get_buckets(bucket_name=None):
+    command = f'aws s3 ls'  # | grep "{bucket_name}"'
     commands = command.split(' ')
     results, errors = run_commands(commands)
+    if bucket_name is not None:
+        results = [x for x in results if bucket_name in x]
     display_results(results, errors)
 
 
@@ -30,22 +51,26 @@ def create_bucket(**kwargs):
 
     bucket_name = f"{project_slug.replace('_', '-')}-{environment}-bucket"
     command = f'aws s3 mb s3://{bucket_name}'
-    if dry_run:
-        print(command)
-    commands = command.split(' ')
-    results, errors = run_commands(commands)
-    display_results(results, errors)
+    print(command)
+    if not dry_run:
+        commands = command.split(' ')
+        results, errors = run_commands(commands)
+        display_results(results, errors)
 
 
 def display_results(results, errors):
     print('-' * 80)
-    print(results)
+    for i, result in enumerate(results):
+        print(f'{i+1} {result}')
     print('-' * 80)
     print(errors)
 
+
+def create_aws_group(group_name):
+    """aws iam create-group --group-name {{ aws_staging_group }}"""
 
 if __name__ == '__main__':
     slug = 'home_automation'
     # create_bucket(project_slug=slug, dry_run=True)
     bucket_pattern = slug.replace('_', '-')
-    get_bucket(bucket_pattern)
+    get_buckets(bucket_pattern)
