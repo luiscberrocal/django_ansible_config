@@ -160,6 +160,22 @@ def create_user(username, **kwargs):
         display_results(results, errors)
 
 
+def create_access_key(username, filename, **kwargs):
+    """
+    "aws iam create-access-key --user-name {{ aws_staging_user }} --output json > ./output/{{ aws_staging_user }}-access.json"
+    :param filename:
+    :param username:
+    :param kwargs:
+    :return:
+    """
+    verbose = kwargs.get('verbose', False)
+    commands = f"aws iam create-access-key --user-name {username} " \
+               f"--output json".split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
+
+
 if __name__ == '__main__':
     slug = 'home_automation'
     # create_bucket(project_slug=slug, dry_run=True)
@@ -167,14 +183,17 @@ if __name__ == '__main__':
     # get_buckets(bucket_pattern)
     # group_name = create_aws_group(slug, verbose=True)
     bucket_name = f"{slug.replace('_', '-')}-staging-bucket"
-    filename = f'../output/{bucket_name}-s3-policy.json'
-    # create_policy_file(filename, bucket_name)
-    # create_policy(bucket_name, filename, verbose=True)
+    policy_filename = f'../output/{bucket_name}-s3-policy.json'
+    # create_policy_file(policy_filename, bucket_name)
+    # create_policy(bucket_name, policy_filename, verbose=True)
     aws_group = 'home-automation-staging-group'
 
     script_filename = f'../output/{bucket_name}-arn.sh'
     # create_policy_arn_script(script_filename, bucket_name, aws_group)
 
-    #execute_arn_script(script_filename, verbose=True)
+    # execute_arn_script(script_filename, verbose=True)
     aws_username = 'home-automation-staging-user'
-    #create_user(aws_username, verbose=True)
+    # create_user(aws_username, verbose=True)
+
+    access_filename = f'../output/{aws_username}-access.json'
+    create_access_key(aws_username, access_filename, verbose=True)
