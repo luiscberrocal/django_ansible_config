@@ -138,9 +138,23 @@ def create_policy_arn_script(filename, bucket_name, aws_group, **kwargs):
         json_file.write(content)
     return content
 
+
 def execute_arn_script(filename, **kwargs):
     verbose = kwargs.get('verbose', False)
     commands = f'sh {filename}'.split(' ')
+    results, errors = run_commands(commands)
+    if verbose:
+        display_results(results, errors)
+
+
+def create_user(username, **kwargs):
+    """
+    "aws iam create-user --user-name {{ aws_staging_user }}"
+    :param username:
+    :return:
+    """
+    verbose = kwargs.get('verbose', False)
+    commands = f"aws iam create-user --user-name {username}".split(' ')
     results, errors = run_commands(commands)
     if verbose:
         display_results(results, errors)
@@ -159,6 +173,8 @@ if __name__ == '__main__':
     aws_group = 'home-automation-staging-group'
 
     script_filename = f'../output/{bucket_name}-arn.sh'
-    #create_policy_arn_script(script_filename, bucket_name, aws_group)
+    # create_policy_arn_script(script_filename, bucket_name, aws_group)
 
-    execute_arn_script(script_filename, verbose=True)
+    #execute_arn_script(script_filename, verbose=True)
+    aws_username = 'home-automation-staging-user'
+    #create_user(aws_username, verbose=True)
